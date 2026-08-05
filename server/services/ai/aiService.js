@@ -10,5 +10,9 @@ export function createAiService({ primary, fallback, logger = console }) {
       catch { throw new AppError('AI provider unavailable.', { status: 502, code: 'AI_PROVIDER_ERROR' }); }
     }
   }
-  return { summarize: (content) => call('summarize', content), generateCarousel: (input) => call('generateCarousel', input) };
+  return {
+    summarize: (content) => call('summarize', content),
+    createEditorialBrief: (input) => call('createEditorialBrief', input),
+    generateCarousel: (input) => call('generateCarousel', input)
+  };
 }
