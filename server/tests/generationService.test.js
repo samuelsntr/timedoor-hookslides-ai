@@ -3,15 +3,45 @@ import assert from 'node:assert/strict';
 import { createGenerationService } from '../services/generation/generationService.js';
 
 const slides = [['hook', 'h'], ['context', 'c'], ['value', 'v1'], ['value', 'v2'], ['takeaway', 't'], ['cta', 'cta']].map(([type, heading]) => ({ type, heading, body: 'body' }));
-test('runs pipeline and persists valid output', async () => {
+
+const brief = {
+  coreIdea: 'idea', audienceProblem: 'problem', promise: 'promise', angle: 'angle',
+  keyInsights: ['insight'], evidence: ['evidence'], emotionalShift: 'from x to y',
+  slidePlan: ['a', 'b', 'c', 'd', 'e', 'f'], ctaDirection: 'do it'
+};
+
+test('runs pipeline through editorial brief before generating slides', async () => {
   const calls = [];
   const service = createGenerationService({
     contentService: { extractContent: async () => { calls.push('extract'); return { content: 'content' }; } },
-    aiService: { summarize: async () => { calls.push('summarize'); return 'summary'; }, generateCarousel: async () => { calls.push('generate'); return JSON.stringify({ title: 'Title', summary: 'Summary', slides }); } },
+    aiService: {
+      summarize: async () => { calls.push('summarize'); return 'summary'; },
+      createEditorialBrief: async () => { calls.push('brief'); return JSON.stringify(brief); },
+      generateCarousel: async () => { calls.push('generate'); return JSON.stringify({ title: 'Title', summary: 'Summary', slides }); }
+    },
     historyRepository: { createCarousel: (record) => { calls.push('save'); return record; } },
-    clock: () => new Date('2026-08-04T00:00:00.000Z'), createId: () => 'id'
+    clock: () => new Date('2026-08-05T00:00:00.000Z'), createId: () => 'id'
   });
   const result = await service.generate({ input: 'input', sourceType: 'topic', strategy: 'viral_hook', template: 'template_1' });
-  assert.deepEqual(calls, ['extract', 'summarize', 'generate', 'save']);
+  assert.deepEqual(calls, ['extract', 'summarize', 'brief', 'generate', 'save']);
   assert.equal(result.slides.length, 6);
+});
+
+test('invalid editorial brief stops before generating or saving', async () => {
+  const calls = [];
+  const service = createGenerationService({
+    contentService: { extractContent: async () => ({ content: 'content' }) },
+    aiService: {
+      summarize: async () => 'summary',
+      createEditorialBrief: async () => JSON.stringify({ coreIdea: 'only this field' }),
+      generateCarousel: async () => { calls.push('generate'); return '{}'; }
+    },
+    historyRepository: { createCarousel: () => { calls.push('save'); } },
+    clock: () => new Date('2026-08-05T00:00:00.000Z'), createId: () => 'id'
+  });
+  await assert.rejects(
+    () => service.generate({ input: 'input', sourceType: 'topic', strategy: 'viral_hook', template: 'template_1' }),
+    (error) => error.code === 'AI_OUTPUT_ERROR'
+  );
+  assert.deepEqual(calls, []);
 });
