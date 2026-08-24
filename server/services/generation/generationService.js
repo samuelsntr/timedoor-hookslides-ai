@@ -5,7 +5,7 @@ import { extractJson } from '../../utils/content.js';
 
 export function createGenerationService({ contentService, aiService, historyRepository, clock = () => new Date(), createId }) {
   return {
-    async generate({ input, sourceType, strategy, template }) {
+    async generate({ input, sourceType, strategy, template, userId }) {
       const extracted = await contentService.extractContent({ sourceType, input });
       const summary = await aiService.summarize(extracted.content);
 
@@ -22,7 +22,7 @@ export function createGenerationService({ contentService, aiService, historyRepo
       if (!result.success) throw new AppError('AI returned invalid carousel data.', { status: 502, code: 'AI_OUTPUT_ERROR' });
 
       const now = clock().toISOString();
-      const record = { id: createId(), ...result.data, originalInput: input, extractedContent: extracted.content, createdAt: now, updatedAt: now };
+      const record = { id: createId(), userId, ...result.data, originalInput: input, extractedContent: extracted.content, createdAt: now, updatedAt: now };
       historyRepository.createCarousel(record);
       return record;
     }
