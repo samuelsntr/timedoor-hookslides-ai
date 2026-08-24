@@ -16,7 +16,7 @@ HookSlides AI turns a topic, an article URL, or a YouTube video into a ready-to-
 - Three content strategies: `viral_hook`, `storytelling`, `actionable_value`.
 - Three visual templates: `template_1`, `template_2`, `template_3` (layout only — the backend does not render images in the MVP).
 - History: list, view, and delete previously generated carousels.
-- No authentication in the MVP — history is anonymous/global, not scoped per user.
+- Cookie-based authentication: register/login issue an HTTP-only `sid` session cookie; generation, extraction, and history are scoped to the authenticated user.
 - No payments in the MVP.
 - No image export in the MVP — the backend returns structured JSON; rendering carousel images is a frontend (or future backend) concern.
 
@@ -89,6 +89,36 @@ Route → validate middleware → Controller → Service → Repository/Provider
 
 **Base URL:** `http://localhost:3000` (configurable via `PORT`)
 **Base path for all resource endpoints:** `/api`
+
+### Authentication
+
+Auth uses a server-side session stored in an HTTP-only `sid` cookie. Register or log in first; send cookies on every API request (`fetch` requires `credentials: 'include'`). The backend's CORS configuration permits credentialed requests from the configured frontend origin.
+
+#### `POST /api/auth/register`
+
+```json
+{ "username": "creator_name", "password": "at-least-12-characters" }
+```
+
+Creates an account and sets `sid`. Usernames are normalized and must be valid; passwords must contain at least 12 characters. Returns `409 USERNAME_TAKEN` when the username already exists.
+
+#### `POST /api/auth/login`
+
+Accepts the same body, authenticates the user, and sets `sid`. Returns `401 INVALID_CREDENTIALS` for invalid credentials.
+
+#### `GET /api/auth/me`
+
+Returns the authenticated user:
+
+```json
+{ "success": true, "message": "Authenticated user.", "data": { "id": "user-uuid", "username": "creator_name" } }
+```
+
+#### `POST /api/auth/logout`
+
+Clears the current session cookie. Safe to call when no session exists.
+
+`/api/generate`, `/api/extract`, and all `/api/history*` endpoints require authentication and return `401 UNAUTHORIZED` without a valid, unexpired `sid` cookie.
 
 ### Response envelope
 
@@ -169,6 +199,8 @@ Content-Type: application/json
     "id": "3018f864-a133-442b-9762-6bb4bdb926e7",
     "title": "Unlock the Power of Compound Interest",
     "summary": "Discover how small habits can lead to significant results over time",
+    "captionIdeas": ["Small habits compound into remarkable results.", "Consistency beats intensity."],
+    "hashtags": ["#compoundinterest", "#personalgrowth"],
     "slides": [
       { "type": "hook", "heading": "The Secret to Achieving Big Goals", "body": "..." },
       { "type": "context", "heading": "Compound Interest in Everyday Life", "body": "..." },
@@ -281,6 +313,8 @@ GET /api/history?page=1&limit=20
         "template": "template_1",
         "slides": [ /* 6 slide objects, same shape as /api/generate */ ],
         "summary": "Discover how small habits...",
+        "captionIdeas": ["Small habits compound into remarkable results."],
+        "hashtags": ["#compoundinterest"],
         "createdAt": "2026-08-05T03:15:35.270Z",
         "updatedAt": "2026-08-05T03:15:35.270Z"
       }
