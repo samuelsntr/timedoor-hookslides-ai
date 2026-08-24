@@ -1,2 +1,3 @@
-DROP TABLE users;
-CREATE TABLE users (id TEXT PRIMARY KEY, username TEXT UNIQUE NOT NULL, password_hash TEXT NOT NULL, created_at TEXT NOT NULL);
+ALTER TABLE users RENAME COLUMN email TO username;
+UPDATE users SET username = lower(trim(username));
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username ON users(username);
