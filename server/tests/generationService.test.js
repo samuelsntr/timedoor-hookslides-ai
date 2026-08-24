@@ -17,7 +17,7 @@ test('runs pipeline through editorial brief before generating slides', async () 
     aiService: {
       summarize: async () => { calls.push('summarize'); return 'summary'; },
       createEditorialBrief: async () => { calls.push('brief'); return JSON.stringify(brief); },
-      generateCarousel: async () => { calls.push('generate'); return JSON.stringify({ title: 'Title', summary: 'Summary', slides }); }
+      generateCarousel: async () => { calls.push('generate'); return JSON.stringify({ title: 'Title', summary: 'Summary', slides, captionIdeas: ['Caption one', 'Caption two'], hashtags: ['#tag1', '#tag2'] }); }
     },
     historyRepository: { createCarousel: (record) => { calls.push('save'); return record; } },
     clock: () => new Date('2026-08-05T00:00:00.000Z'), createId: () => 'id'
