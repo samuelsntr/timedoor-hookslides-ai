@@ -1,5 +1,8 @@
 import express from 'express';
 import cors from 'cors';
+import { auth as requireAuth } from './middleware/auth.js';
+import { createAuthRoutes } from './routes/authRoutes.js';
+import { createAuthRepository } from './services/auth.js';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { requestId } from './middleware/requestId.js';
@@ -17,12 +20,14 @@ export function createApp({ services = {}, database } = {}) {
   app.locals.services = services;
   app.locals.database = database;
   app.use(helmet());
-  app.use(cors());
+  app.use(cors({ origin: process.env.FRONTEND_ORIGIN || 'http://localhost:5173', credentials: true }));
+  if (database) { app.use(createAuthRoutes(createAuthRepository(database), database)); }
   app.use(rateLimit({ windowMs: 60_000, limit: 60, standardHeaders: true, legacyHeaders: false }));
   app.use(express.json({ limit: '256kb' }));
   app.use(requestId);
   app.get('/health', (req, res) => res.json({ success: true, message: 'OK', data: { status: 'ok' } }));
   if (services.generation && services.extraction && services.history) {
+    app.use('/api', requireAuth({ db: database }));
     app.use('/api', createGenerationRoutes(createGenerationController(services.generation)));
     app.use('/api', createExtractionRoutes(createExtractionController(services.extraction)));
     app.use('/api', createHistoryRoutes(createHistoryController(services.history)));
