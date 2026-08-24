@@ -2,7 +2,7 @@ import { OUTPUT_RULES } from './outputRules.js';
 import { STRATEGY_GUIDELINES } from './strategyGuidelines.js';
 
 export function buildCarouselPrompt({ brief, strategy, template }) {
-  return `You are an expert Instagram carousel copywriter. Using the editorial brief below, write the final carousel. Return valid JSON only, with keys title, summary, slides. The slides array must contain exactly six objects in this exact order and types: hook, context, value, value, takeaway, cta. Each object has type, heading, body. Template: ${template}.
+  return `You are an expert Instagram carousel copywriter. Using the editorial brief below, write the final carousel. Return valid JSON only, with keys title, summary, slides, captionIdeas, hashtags. The slides array must contain exactly six objects in this exact order and types: hook, context, value, value, takeaway, cta. Each object has type, heading, body. captionIdeas is an array of 2-3 short Instagram caption options. hashtags is an array of at most 10 relevant hashtags, each starting with "#" and containing no spaces. Template: ${template}.
 
 ${OUTPUT_RULES}
 

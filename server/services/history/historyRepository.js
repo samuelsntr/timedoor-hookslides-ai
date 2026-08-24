@@ -2,11 +2,11 @@ import { toCarousel } from '../../models/carousel.js';
 
 export function createHistoryRepository(db) {
   const insert = db.prepare(`INSERT INTO carousels
-    (id, title, source_type, original_input, extracted_content, strategy, template, slides_json, summary, created_at, updated_at)
-    VALUES (@id, @title, @sourceType, @originalInput, @extractedContent, @strategy, @template, @slidesJson, @summary, @createdAt, @updatedAt)`);
+    (id, title, source_type, original_input, extracted_content, strategy, template, slides_json, summary, caption_ideas_json, hashtags_json, created_at, updated_at)
+    VALUES (@id, @title, @sourceType, @originalInput, @extractedContent, @strategy, @template, @slidesJson, @summary, @captionIdeasJson, @hashtagsJson, @createdAt, @updatedAt)`);
   return {
     createCarousel(record) {
-      insert.run({ ...record, slidesJson: JSON.stringify(record.slides) });
+      insert.run({ ...record, slidesJson: JSON.stringify(record.slides), captionIdeasJson: JSON.stringify(record.captionIdeas), hashtagsJson: JSON.stringify(record.hashtags) });
       return record;
     },
     listCarousels({ page = 1, limit = 20 }) {

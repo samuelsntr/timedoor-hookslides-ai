@@ -11,6 +11,8 @@ const slideSchema = z.object({
 export const carouselSchema = z.object({
   title: z.string().trim().min(1).max(LIMITS.heading),
   summary: z.string().trim().max(LIMITS.summary).nullable().optional(),
+  captionIdeas: z.array(z.string().trim().min(1).max(LIMITS.summary)).min(2).max(3).optional().default([]),
+  hashtags: z.array(z.string().regex(/^#[^\s#]+$/)).max(10).default([]),
   slides: z.array(slideSchema).length(6),
   sourceType: z.enum(SOURCE_TYPES),
   strategy: z.enum(STRATEGIES),
