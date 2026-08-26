@@ -19,6 +19,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { SiteFooter } from "@/components/shared/site-footer"
 import { SiteHeader } from "@/components/shared/site-header"
 import { cn, copyToClipboard } from "@/lib/utils"
+import { useAuthContext } from "@/features/auth/auth-context"
 
 const contentSources = [
   { id: "topic", label: "Topic", icon: Lightbulb },
@@ -53,6 +54,7 @@ function GenerateCarouselPage() {
   const [strategy, setStrategy] = useState<(typeof strategies)[number]["id"]>("story")
   const [template, setTemplate] = useState<"Bold Accent" | "Minimalist" | "Data Focused">("Bold Accent")
   const [copied, setCopied] = useState<string | null>(null)
+  const { user, openAuthModal } = useAuthContext()
 
   async function handleCopy(text: string) {
     if (await copyToClipboard(text)) {
@@ -170,7 +172,7 @@ function GenerateCarouselPage() {
             </div>
           </div>
 
-          <Button className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-linear-to-br from-primary to-secondary py-6 text-lg font-semibold text-primary-foreground shadow-md transition-colors hover:opacity-90">
+          <Button onClick={() => { if (!user) openAuthModal("login") }} className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-linear-to-br from-primary to-secondary py-6 text-lg font-semibold text-primary-foreground shadow-md transition-colors hover:opacity-90">
             <WandSparkles className="size-5" /> Generate My Carousel
           </Button>
         </section>

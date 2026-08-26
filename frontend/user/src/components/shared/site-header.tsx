@@ -1,7 +1,8 @@
-import { LogIn, Menu, Sparkles, X } from "lucide-react"
+import { Menu, Sparkles, X } from "lucide-react"
 import { useEffect, useState } from "react"
 
-import { Button } from "@/components/ui/button"
+import { AuthControls } from "@/features/auth/components/auth-controls"
+import { useAuthContext } from "@/features/auth/auth-context"
 import { cn } from "@/lib/utils"
 
 type SiteHeaderProps = { active?: "features" | "pricing" | "about"; showMenuToggle?: boolean; showSignIn?: boolean }
@@ -12,6 +13,7 @@ const links = [
 
 function SiteHeader({ active, showMenuToggle = true, showSignIn = true }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { openAuthModal } = useAuthContext()
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)")
@@ -34,7 +36,7 @@ function SiteHeader({ active, showMenuToggle = true, showSignIn = true }: SiteHe
         </div>
         <div className="flex items-center gap-2">
           {active === "pricing" && <a href="/" className="hidden cursor-pointer rounded-lg bg-linear-to-r from-primary to-secondary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 md:inline-flex">Get Started</a>}
-          {showSignIn && <Button variant="ghost" className="hidden cursor-pointer gap-1.5 px-2 text-sm font-semibold text-muted-foreground hover:text-foreground md:inline-flex"><LogIn className="size-4" />Sign In</Button>}
+          {showSignIn && <div className="hidden md:inline-flex"><AuthControls onSignIn={() => openAuthModal("login")} /></div>}
           {showMenuToggle && (
             <button type="button" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)} className="grid size-9 cursor-pointer place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground md:hidden">
               {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
@@ -50,7 +52,7 @@ function SiteHeader({ active, showMenuToggle = true, showSignIn = true }: SiteHe
           {showSignIn && (
             <div className="mt-2 flex items-center justify-end gap-2 border-t border-border pt-3">
               {active === "pricing" && <a href="/" onClick={() => setMenuOpen(false)} className="cursor-pointer rounded-lg bg-linear-to-r from-primary to-secondary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">Get Started</a>}
-              <Button variant="ghost" className="cursor-pointer gap-1.5 px-2 text-sm font-semibold text-muted-foreground hover:text-foreground"><LogIn className="size-4" />Sign In</Button>
+              <AuthControls onSignIn={() => { setMenuOpen(false); openAuthModal("login") }} />
             </div>
           )}
         </div>
