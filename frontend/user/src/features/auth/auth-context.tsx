@@ -16,7 +16,7 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 
 function AuthProvider({ children }: { children: ReactNode }) {
   const auth = useAuth()
-  const [authModal, setAuthModal] = useState({ open: false, mode: "login" as AuthMode })
+  const [authModal, setAuthModal] = useState<{ open: boolean; mode: AuthMode; onSuccess?: () => void }>({ open: false, mode: "login" })
   const [signOutModal, setSignOutModal] = useState(false)
 
   return (
