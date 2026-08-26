@@ -19,11 +19,11 @@ function AuthControls({ onSignIn }: AuthControlsProps) {
 
   return (
     <div className="flex items-center gap-2">
-      <Avatar size="sm" className="hidden sm:flex">
+      <Avatar size="sm">
         <AvatarImage src={avatarUrl} alt={`${user.username} avatar`} />
         <AvatarFallback>{user.username.slice(0, 1).toUpperCase()}</AvatarFallback>
       </Avatar>
-      <span className="hidden max-w-28 truncate text-sm font-medium text-foreground sm:inline">{user.username}</span>
+      <span className="max-w-28 truncate text-sm font-medium text-foreground">{user.username}</span>
       <Button variant="ghost" onClick={openSignOutModal} disabled={isLoading} className="cursor-pointer gap-1.5 px-2 text-sm font-semibold text-muted-foreground hover:text-foreground"><LogOut className="size-4" />Sign Out</Button>
     </div>
   )
