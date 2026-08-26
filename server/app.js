@@ -21,9 +21,9 @@ export function createApp({ services = {}, database } = {}) {
   app.locals.database = database;
   app.use(helmet());
   app.use(cors({ origin: process.env.FRONTEND_ORIGIN || 'http://localhost:5173', credentials: true }));
-  if (database) { app.use(createAuthRoutes(createAuthRepository(database), database)); }
   app.use(rateLimit({ windowMs: 60_000, limit: 60, standardHeaders: true, legacyHeaders: false }));
   app.use(express.json({ limit: '256kb' }));
+  if (database) { app.use(createAuthRoutes(createAuthRepository(database), database)); }
   app.use(requestId);
   app.get('/health', (req, res) => res.json({ success: true, message: 'OK', data: { status: 'ok' } }));
   if (services.generation && services.extraction && services.history) {
