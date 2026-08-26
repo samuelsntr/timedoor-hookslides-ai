@@ -33,7 +33,7 @@ function CheckoutPage() {
 
   function handlePay() {
     setIsPaying(true)
-    window.setTimeout(() => navigate("/checkout/success"), 2000)
+    window.setTimeout(() => navigate("/checkout/success"), 1000)
   }
 
   return (
