@@ -50,7 +50,6 @@ const slides = [
 ]
 
 function GenerateCarouselPage() {
-  const [source, setSource] = useState<(typeof contentSources)[number]["id"]>("topic")
   const [strategy, setStrategy] = useState<(typeof strategies)[number]["id"]>("story")
   const [template, setTemplate] = useState<"Bold Accent" | "Minimalist" | "Data Focused">("Bold Accent")
   const [copied, setCopied] = useState<string | null>(null)
@@ -76,21 +75,11 @@ function GenerateCarouselPage() {
 
           <div className="flex flex-col gap-4">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Content Source</h2>
-            <div className="flex flex-wrap gap-3">
-              {contentSources.map(({ id, label, icon: Icon }) => (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => setSource(id)}
-                  className={cn(
-                    "flex cursor-pointer items-center gap-2 rounded-xl border px-4 py-2 font-medium transition-colors",
-                    source === id
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border bg-muted text-muted-foreground hover:border-primary/40",
-                  )}
-                >
-                  <Icon className="size-4" /> {label}
-                </button>
+            <div className="flex flex-wrap gap-3 text-sm font-medium text-muted-foreground">
+              {contentSources.map(({ label, icon: Icon }) => (
+                <span key={label} className="flex items-center gap-2 rounded-xl border border-border bg-muted px-4 py-2">
+                  <Icon className="size-4 text-primary" /> {label}
+                </span>
               ))}
             </div>
             <textarea
