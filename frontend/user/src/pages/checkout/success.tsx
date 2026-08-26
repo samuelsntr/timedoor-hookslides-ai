@@ -3,7 +3,13 @@ import { useNavigate } from "react-router-dom"
 import { ArrowRight, CheckCircle2 } from "lucide-react"
 
 const COUNTDOWN_SECONDS = 5
-const CIRCLE_CIRCUMFERENCE = 100
+const PROGRESS_SECONDS = COUNTDOWN_SECONDS - 1
+const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * 16
+
+function getStrokeDashoffset(secondsLeft: number) {
+  const progress = Math.min(Math.max(secondsLeft - 1, 0), PROGRESS_SECONDS)
+  return CIRCLE_CIRCUMFERENCE - (progress / PROGRESS_SECONDS) * CIRCLE_CIRCUMFERENCE
+}
 
 function CheckoutSuccessPage() {
   const navigate = useNavigate()
@@ -18,7 +24,7 @@ function CheckoutSuccessPage() {
     return () => window.clearTimeout(timer)
   }, [secondsLeft, navigate])
 
-  const strokeDashoffset = CIRCLE_CIRCUMFERENCE - (secondsLeft / COUNTDOWN_SECONDS) * CIRCLE_CIRCUMFERENCE
+  const strokeDashoffset = getStrokeDashoffset(secondsLeft)
 
   return (
     <main className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-background p-6">
@@ -55,7 +61,7 @@ function CheckoutSuccessPage() {
           <div className="relative flex size-16 items-center justify-center">
             <svg className="absolute inset-0 size-full -rotate-90" viewBox="0 0 36 36">
               <circle className="stroke-border" cx="18" cy="18" fill="none" r="16" strokeWidth="3" />
-              <circle className="stroke-primary transition-all duration-1000 ease-linear" cx="18" cy="18" fill="none" r="16" strokeWidth="3" strokeDasharray={CIRCLE_CIRCUMFERENCE} strokeDashoffset={strokeDashoffset} />
+              <circle className="stroke-primary transition-all duration-1000 ease-linear" cx="18" cy="18" fill="none" r="16" strokeWidth="3" strokeDasharray={`${CIRCLE_CIRCUMFERENCE} ${CIRCLE_CIRCUMFERENCE}`} strokeDashoffset={strokeDashoffset} />
             </svg>
             <span className="relative z-10 block pt-1 text-3xl font-bold leading-none text-primary">{secondsLeft}</span>
           </div>
