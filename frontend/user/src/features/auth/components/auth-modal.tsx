@@ -16,7 +16,7 @@ type AuthModalProps = {
 }
 
 function AuthModal({ open, mode: initialMode = "login", onClose }: AuthModalProps) {
-  const { authenticate, error, isLoading, clearError, closeAuthModal, openAuthModal } = useAuthContext()
+  const { authenticate, error, isLoading, clearError, closeAuthModal, openAuthModal, authModal: { onSuccess } } = useAuthContext()
   const [mode, setMode] = useState<AuthMode>(initialMode)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -64,6 +64,7 @@ function AuthModal({ open, mode: initialMode = "login", onClose }: AuthModalProp
     try {
       await authenticate({ username: username.trim(), password }, mode)
       closeAuthModal()
+      onSuccess?.()
     } catch {
       // The hook exposes the API error below the form.
     }

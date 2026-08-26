@@ -4,8 +4,8 @@ import { useAuth } from "./hooks/use-auth"
 
 type AuthMode = "login" | "register"
 type AuthContextValue = ReturnType<typeof useAuth> & {
-  authModal: { open: boolean; mode: AuthMode }
-  openAuthModal: (mode?: AuthMode) => void
+  authModal: { open: boolean; mode: AuthMode; onSuccess?: () => void }
+  openAuthModal: (mode?: AuthMode, onSuccess?: () => void) => void
   closeAuthModal: () => void
   signOutModal: boolean
   openSignOutModal: () => void
@@ -24,7 +24,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
       value={{
         ...auth,
         authModal,
-        openAuthModal: (mode = "login") => setAuthModal({ open: true, mode }),
+        openAuthModal: (mode = "login", onSuccess) => setAuthModal({ open: true, mode, onSuccess }),
         closeAuthModal: () => setAuthModal((current) => ({ ...current, open: false })),
         signOutModal,
         openSignOutModal: () => setSignOutModal(true),

@@ -1,4 +1,7 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+
+import { useAuthContext } from "@/features/auth/auth-context"
 import { CheckCircle2, ChevronDown, CreditCard, Sparkles } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -52,8 +55,18 @@ const faqs = [
 ]
 
 function PricingPage() {
+  const navigate = useNavigate()
+  const { user, openAuthModal } = useAuthContext()
   const [openFaq, setOpenFaq] = useState<number | null>(0)
   const [upgradeOpen, setUpgradeOpen] = useState(false)
+
+  function handleFreePlan() {
+    if (user) {
+      navigate("/")
+      return
+    }
+    openAuthModal("login", () => navigate("/"))
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-background font-sans text-foreground">
@@ -107,9 +120,11 @@ function PricingPage() {
               ) : (
                 <Button
                   variant="outline"
-                  className="w-full cursor-pointer rounded-xl border-primary py-4 font-semibold text-primary hover:bg-primary/10 active:scale-95"
+                  onClick={handleFreePlan}
+                  disabled={Boolean(user)}
+                  className="w-full cursor-pointer rounded-xl border-primary py-4 font-semibold text-primary hover:bg-primary/10 active:scale-95 disabled:cursor-not-allowed disabled:border-primary disabled:bg-white disabled:text-primary disabled:opacity-100"
                 >
-                  {plan.cta}
+                  {user ? "Current Plan" : plan.cta}
                 </Button>
               )}
             </div>

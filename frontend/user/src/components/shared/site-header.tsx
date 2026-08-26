@@ -35,7 +35,6 @@ function SiteHeader({ active, showMenuToggle = true, showSignIn = true }: SiteHe
           </div>
         </div>
         <div className="flex items-center gap-2">
-          {active === "pricing" && <a href="/" className="hidden cursor-pointer rounded-lg bg-linear-to-r from-primary to-secondary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 md:inline-flex">Get Started</a>}
           {showSignIn && <div className="hidden md:inline-flex"><AuthControls onSignIn={() => openAuthModal("login")} /></div>}
           {showMenuToggle && (
             <button type="button" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)} className="grid size-9 cursor-pointer place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground md:hidden">
@@ -51,7 +50,6 @@ function SiteHeader({ active, showMenuToggle = true, showSignIn = true }: SiteHe
           ))}
           {showSignIn && (
             <div className="mt-2 flex items-center justify-end gap-2 border-t border-border pt-3">
-              {active === "pricing" && <a href="/" onClick={() => setMenuOpen(false)} className="cursor-pointer rounded-lg bg-linear-to-r from-primary to-secondary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">Get Started</a>}
               <AuthControls onSignIn={() => { setMenuOpen(false); openAuthModal("login") }} />
             </div>
           )}
