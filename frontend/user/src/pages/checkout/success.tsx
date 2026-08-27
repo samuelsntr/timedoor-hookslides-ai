@@ -17,7 +17,7 @@ function CheckoutSuccessPage() {
 
   useEffect(() => {
     if (secondsLeft <= 0) {
-      navigate("/")
+      navigate("/generate")
       return
     }
     const timer = window.setTimeout(() => setSecondsLeft((s) => s - 1), 1000)
@@ -69,7 +69,7 @@ function CheckoutSuccessPage() {
 
         <button
           type="button"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/generate")}
           className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
         >
           Go to Main Menu

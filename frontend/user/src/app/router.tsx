@@ -3,10 +3,15 @@ import { CheckoutPage } from "@/pages/checkout"
 import { CheckoutSuccessPage } from "@/pages/checkout/success"
 import { PricingPage } from "@/pages/pricing"
 import { GenerateCarouselPage } from "@/pages/generate/carousel"
+import { LandingPage } from "@/pages/landing"
 
 export const router = createBrowserRouter([
     {
         path: "/",
+        element: <LandingPage />,
+    },
+    {
+        path: "/generate",
         element: <GenerateCarouselPage />,
     },
     {

@@ -62,10 +62,10 @@ function PricingPage() {
 
   function handleFreePlan() {
     if (user) {
-      navigate("/")
+      navigate("/generate")
       return
     }
-    openAuthModal("login", () => navigate("/"))
+    openAuthModal("login", () => navigate("/generate"))
   }
 
   return (
