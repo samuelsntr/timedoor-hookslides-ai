@@ -18,7 +18,7 @@ function Hero({ onStart }: { onStart: () => void }) {
   }, [])
 
   return (
-    <section className="relative mx-auto grid w-full max-w-7xl items-center gap-12 overflow-hidden px-6 pb-20 pt-28 md:px-10 md:pb-28 md:pt-36 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+    <section className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-6 pb-20 pt-28 md:px-10 md:pb-28 md:pt-36 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
       
       {/* Background Decorative Accents */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
@@ -123,7 +123,7 @@ function Hero({ onStart }: { onStart: () => void }) {
         
         {/* Main Stack Container (handles hover & floating) */}
         <div 
-          className="group relative mx-auto aspect-4/5 w-[78%] sm:w-[68%] lg:w-[74%]"
+          className="group relative mx-auto aspect-4/5 w-[76%] sm:w-[66%] lg:w-[68%]"
           style={{ animation: isSettled ? 'float-breathing 6s ease-in-out infinite' : 'none' }}
         >
           
@@ -131,9 +131,9 @@ function Hero({ onStart }: { onStart: () => void }) {
           <div 
             className={`absolute inset-0 z-0 origin-bottom-left transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
               isMounted 
-                ? '-translate-x-[26%] -rotate-[8deg] scale-100 opacity-90' 
+                ? '-translate-x-[24%] -rotate-[8deg] scale-100 opacity-90' 
                 : 'translate-x-0 rotate-0 scale-75 opacity-0'
-            } ${isSettled ? 'group-hover:-translate-x-[36%] group-hover:-rotate-[14deg]' : ''}`}
+            } ${isSettled ? 'group-hover:-translate-x-[32%] group-hover:-rotate-[12deg]' : ''}`}
             style={{ transitionDelay: isMounted ? '0.2s' : '0s' }}
             aria-hidden="true"
           >
@@ -144,9 +144,9 @@ function Hero({ onStart }: { onStart: () => void }) {
           <div 
             className={`absolute inset-0 z-10 origin-bottom-right transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
               isMounted 
-                ? 'translate-x-[26%] rotate-[8deg] scale-100 opacity-90' 
+                ? 'translate-x-[24%] rotate-[8deg] scale-100 opacity-90' 
                 : 'translate-x-0 rotate-0 scale-75 opacity-0'
-            } ${isSettled ? 'group-hover:translate-x-[36%] group-hover:rotate-[14deg]' : ''}`}
+            } ${isSettled ? 'group-hover:translate-x-[32%] group-hover:rotate-[12deg]' : ''}`}
             style={{ transitionDelay: isMounted ? '0.3s' : '0s' }}
             aria-hidden="true"
           >
