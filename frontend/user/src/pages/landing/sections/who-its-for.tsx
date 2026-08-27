@@ -7,21 +7,21 @@ import { Reveal } from "../reveal"
 const audiences = [
   {
     name: "Content Creators",
-    body: "Stay consistent without designing every post from scratch.",
+    body: "Grow your audience faster. Turn your daily thoughts into viral carousels without touching a design tool.",
     photo: creatorPhoto,
     alt: "A content creator holding a camera in a creative studio",
     hoverShadow: "hover:shadow-[0_24px_48px_-12px_rgba(226,75,44,0.25)] hover:ring-[#e24b2c]/20",
   },
   {
     name: "Founders & Entrepreneurs",
-    body: "Turn what you know into something worth sharing.",
+    body: "Build thought leadership. Turn your industry expertise into professional, branded assets in minutes.",
     photo: founderPhoto,
     alt: "A focused founder working on a laptop by a bright window",
     hoverShadow: "hover:shadow-[0_24px_48px_-12px_rgba(109,94,247,0.25)] hover:ring-[#6D5EF7]/20",
   },
   {
     name: "Marketers & Managers",
-    body: "Produce more without repeating the same manual work every time.",
+    body: "Fill your content calendar instantly. Repurpose long-form content into weeks of engaging social posts.",
     photo: marketerPhoto,
     alt: "A social media manager organizing tasks on a tablet",
     hoverShadow: "hover:shadow-[0_24px_48px_-12px_rgba(79,142,247,0.25)] hover:ring-[#4F8EF7]/20",
@@ -35,10 +35,10 @@ function WhoItsFor() {
         <Reveal>
           <div className="text-center md:text-left">
             <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-[#1c1a17] sm:text-4xl lg:text-5xl">
-              Built for people who make things.
+              Built for teams and creators who need to post consistently.
             </h2>
             <p className="mt-5 text-lg text-[#5c574e]">
-              Stop struggling with design tools. Start publishing more of your ideas.
+              Scale your content output without hiring a designer or burning your weekends.
             </p>
           </div>
         </Reveal>

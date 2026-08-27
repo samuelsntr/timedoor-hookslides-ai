@@ -7,19 +7,19 @@ const strategies = [
     icon: TrendingUp,
     name: "Viral Hook",
     headline: "Make people stop scrolling.",
-    body: "Turn an idea into an opening people can't skip past.",
+    body: "Stop the scroll. We automatically generate punchy, psychology-backed hooks that force people to swipe left.",
   },
   {
     icon: BookOpen,
     name: "Storytelling",
     headline: "Give your idea a story.",
-    body: "Turn information into something people want to follow to the end.",
+    body: "Keep them reading. Our AI structures your information into a compelling narrative arc that retains attention.",
   },
   {
     icon: Bolt,
     name: "Actionable Value",
     headline: "Give people something useful.",
-    body: "Turn knowledge into steps they can act on today.",
+    body: "Drive saves and shares. We format your expertise into bite-sized, actionable steps your audience will want to bookmark.",
   },
 ]
 
@@ -29,7 +29,7 @@ function Strategies() {
       <div className="mx-auto w-full max-w-7xl px-6 py-20 md:px-10 md:py-28">
         <Reveal>
           <h2 className="max-w-xl text-3xl font-semibold leading-[1.1] text-[#1c1a17] sm:text-4xl lg:text-5xl">
-            Not just AI text. A strategy.
+            Engineered for engagement, not just automation.
           </h2>
         </Reveal>
 

@@ -18,9 +18,9 @@ function FinalCta({ onStart }: { onStart: () => void }) {
 
       <Reveal className="relative mx-auto flex w-full max-w-3xl flex-col items-center px-6 py-24 text-center md:py-32">
         <h2 className="text-3xl font-semibold leading-[1.1] text-[#faf7f2] sm:text-4xl lg:text-5xl">
-          Your next carousel starts with one idea.
+          Your next viral carousel is 60 seconds away.
         </h2>
-        <p className="mt-5 text-lg text-[#faf7f2]/80">Stop spending an hour turning a good idea into a post.</p>
+        <p className="mt-5 text-lg text-[#faf7f2]/80">Stop letting your best ideas die in your notes app. Turn them into beautifully designed posts today.</p>
         <button
           type="button"
           onClick={onStart}

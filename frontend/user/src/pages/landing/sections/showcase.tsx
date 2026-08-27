@@ -15,10 +15,10 @@ function Showcase() {
     <section className="mx-auto w-full max-w-7xl px-6 py-20 md:px-10 md:py-28">
       <Reveal className="max-w-2xl">
         <h2 className="text-3xl font-semibold leading-[1.1] text-[#1c1a17] sm:text-4xl lg:text-5xl">
-          From raw idea to ready-to-post.
+          One idea. Endless professional styles.
         </h2>
         <p className="mt-5 text-lg leading-relaxed text-[#5c574e]">
-          Same carousel, three ways to tell it. Pick the look that fits your feed.
+          Never worry about alignment, fonts, or margins again. Pick a premium template that matches your brand and hit export.
         </p>
       </Reveal>
 

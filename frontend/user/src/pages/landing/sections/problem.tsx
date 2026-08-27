@@ -1,4 +1,4 @@
-import problemPhoto from "@/assets/landing/problem.png"
+import problemPhoto from "@/assets/landing/problem3.png"
 import { Reveal } from "../reveal"
 import {
   Search,
@@ -62,20 +62,17 @@ function Problem() {
         <div className="relative z-20">
           <Reveal>
             <h2 className="text-4xl font-bold leading-[1.15] tracking-tight text-[#1c1a17] sm:text-5xl lg:text-[3.5rem]">
-              Your idea isn't the problem.<br />The process is.
+              Stop wasting hours designing in Canva.
             </h2>
             <p className="mt-8 max-w-md text-lg leading-relaxed text-[#5c574e]">
-              You already know what you want to say. But turning it into a post means navigating an exhausting maze of researching, writing, structuring, designing, and formatting.
-            </p>
-            <p className="mt-8 text-xl font-semibold leading-snug text-[#1c1a17]">
-              By the time you're done, you've forgotten why you started. That's not content creation. That's a second job.
+              You have brilliant ideas, but turning them into polished, swipeable posts takes forever. Staring at a blank canvas shouldn't be the hardest part of content creation.
             </p>
           </Reveal>
         </div>
 
         {/* Right Column: Interactive Overload Visual */}
         <Reveal delay={150}>
-          <div 
+          <div
             ref={containerRef}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -93,14 +90,14 @@ function Problem() {
             `}</style>
 
             {/* Background Atmosphere Glow */}
-            <div 
+            <div
               className={`absolute left-1/2 top-1/2 h-[80%] w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-[#6D5EF7]/10 to-[#e24b2c]/10 blur-[100px] transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
             />
 
             {/* Dotted & Orbital SVG Background */}
-            <svg 
-              className={`pointer-events-none absolute inset-0 h-[120%] w-[120%] -translate-x-[10%] -translate-y-[10%] transition-all duration-[1500ms] ease-out ${isVisible ? 'opacity-80 scale-100' : 'opacity-0 scale-95'}`} 
-              viewBox="0 0 800 600" 
+            <svg
+              className={`pointer-events-none absolute inset-0 h-[120%] w-[120%] -translate-x-[10%] -translate-y-[10%] transition-all duration-[1500ms] ease-out ${isVisible ? 'opacity-80 scale-100' : 'opacity-0 scale-95'}`}
+              viewBox="0 0 800 600"
               preserveAspectRatio="xMidYMid meet"
               style={{ transform: `translate(${mousePos.x * -10}px, ${mousePos.y * -10}px)` }}
             >
@@ -117,17 +114,17 @@ function Problem() {
                   <rect width="100%" height="100%" fill="url(#problem-mask-gradient)" />
                 </mask>
               </defs>
-              
+
               <rect width="100%" height="100%" fill="url(#problem-dot-pattern)" mask="url(#problem-dot-mask)" />
-              
+
               <g transform="translate(400, 300)">
                 <ellipse rx="260" ry="260" fill="none" stroke="#1c1a17" strokeOpacity="0.12" strokeWidth="1.5" strokeDasharray="4 8" />
                 <ellipse rx="330" ry="330" fill="none" stroke="#6D5EF7" strokeOpacity="0.15" strokeWidth="1.5" strokeDasharray="5 10" />
-                
+
                 <path d="M -190 -190 Q -60 -280 120 -240" fill="none" stroke="#e24b2c" strokeOpacity="0.4" strokeWidth="2" strokeDasharray="4 6" />
                 <path d="M 240 -160 Q 330 0 260 210" fill="none" stroke="#6D5EF7" strokeOpacity="0.3" strokeWidth="2" strokeDasharray="4 6" />
                 <path d="M 160 260 Q 0 340 -210 210" fill="none" stroke="#4F8EF7" strokeOpacity="0.35" strokeWidth="2" strokeDasharray="3 5" />
-                
+
                 <circle cx="-190" cy="-190" r="4" fill="#e24b2c" className="opacity-90" />
                 <circle cx="120" cy="-240" r="5" fill="#6D5EF7" className="opacity-70" />
                 <circle cx="260" cy="210" r="3.5" fill="#1c1a17" className="opacity-50" />
@@ -136,9 +133,9 @@ function Problem() {
             </svg>
 
             {/* Central 3D Pop-Out Composition */}
-            <div 
+            <div
               className={`relative z-10 mx-auto flex w-full max-w-[24rem] items-center justify-center sm:max-w-[28rem] lg:max-w-[30rem] transition-all duration-[1200ms] ease-out ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'}`}
-              style={{ 
+              style={{
                 animation: isVisible ? "float-center 7s ease-in-out infinite" : "none",
                 transform: `translate(${mousePos.x * -5}px, ${mousePos.y * -5}px)`
               }}
@@ -157,7 +154,7 @@ function Problem() {
                 />
               </div>
 
-              <div 
+              <div
                 className={`absolute -bottom-2 left-[8%] z-20 flex items-center gap-2 rounded-full border border-white/40 bg-[#1c1a17] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#faf7f2] shadow-[0_12px_24px_-4px_rgba(28,26,23,0.4)] backdrop-blur-md transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}
               >
                 <Sparkles className="size-4 text-[#e24b2c]" />
@@ -176,13 +173,12 @@ function Problem() {
                     transition: 'transform 0.2s ease-out'
                   }}
                 >
-                  <div 
-                    className={`transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                      isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-75 translate-y-8"
-                    }`}
+                  <div
+                    className={`transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-75 translate-y-8"
+                      }`}
                     style={{ transitionDelay: isVisible ? `${step.appearDelay}s` : '0s' }}
                   >
-                    <div 
+                    <div
                       className="group pointer-events-auto flex items-center gap-3 rounded-2xl border border-white/90 bg-white/90 px-4 py-3 shadow-[0_8px_24px_-8px_rgba(28,26,23,0.18)] backdrop-blur-md transition-colors duration-300 hover:bg-white hover:shadow-[0_16px_32px_-8px_rgba(28,26,23,0.25)]"
                       style={{ animation: isVisible ? `float-badge 5s ease-in-out infinite ${step.delay}s` : 'none' }}
                     >
@@ -197,29 +193,27 @@ function Problem() {
                 </div>
               ))}
             </div>
-            
+
             {/* Orbiting Staggered Badges - Mobile */}
             <div className="pointer-events-none absolute inset-0 z-20 sm:hidden">
               {visualSteps.slice(0, 5).map((step, i) => (
                 <div
                   key={step.text}
-                  className={`absolute z-20 ${
-                    [
-                      "left-[0%] top-[6%]",
-                      "left-[-6%] top-[50%]",
-                      "left-[2%] bottom-[2%]",
-                      "right-[-2%] top-[12%]",
-                      "right-[-6%] top-[56%]",
-                    ][i]
-                  }`}
-                >
-                  <div 
-                    className={`transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                      isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-75 translate-y-6"
+                  className={`absolute z-20 ${[
+                    "left-[0%] top-[6%]",
+                    "left-[-6%] top-[50%]",
+                    "left-[2%] bottom-[2%]",
+                    "right-[-2%] top-[12%]",
+                    "right-[-6%] top-[56%]",
+                  ][i]
                     }`}
+                >
+                  <div
+                    className={`transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-75 translate-y-6"
+                      }`}
                     style={{ transitionDelay: isVisible ? `${step.appearDelay}s` : '0s' }}
                   >
-                    <div 
+                    <div
                       className="pointer-events-auto flex items-center gap-2 rounded-xl border border-white/90 bg-white/90 px-3 py-2 shadow-[0_4px_16px_-4px_rgba(28,26,23,0.15)] backdrop-blur-md"
                       style={{ animation: isVisible ? `float-badge 5s ease-in-out infinite ${step.delay}s` : 'none' }}
                     >
