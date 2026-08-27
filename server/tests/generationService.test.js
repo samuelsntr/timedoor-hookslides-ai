@@ -19,7 +19,7 @@ test('runs pipeline through editorial brief before generating slides', async () 
       createEditorialBrief: async () => { calls.push('brief'); return JSON.stringify(brief); },
       generateCarousel: async () => { calls.push('generate'); return JSON.stringify({ title: 'Title', summary: 'Summary', slides, captionIdeas: ['Caption one', 'Caption two'], hashtags: ['#tag1', '#tag2'] }); }
     },
-    historyRepository: { createCarousel: (record) => { calls.push('save'); return record; } },
+    historyRepository: { countThisMonth: () => 0, createCarouselIfAllowed: (record) => { calls.push('save'); return record; } },
     clock: () => new Date('2026-08-05T00:00:00.000Z'), createId: () => 'id'
   });
   const result = await service.generate({ input: 'input', sourceType: 'topic', strategy: 'viral_hook', template: 'template_1' });
@@ -36,7 +36,7 @@ test('invalid editorial brief stops before generating or saving', async () => {
       createEditorialBrief: async () => JSON.stringify({ coreIdea: 'only this field' }),
       generateCarousel: async () => { calls.push('generate'); return '{}'; }
     },
-    historyRepository: { createCarousel: () => { calls.push('save'); } },
+    historyRepository: { countThisMonth: () => 0, createCarouselIfAllowed: () => { calls.push('save'); } },
     clock: () => new Date('2026-08-05T00:00:00.000Z'), createId: () => 'id'
   });
   await assert.rejects(
@@ -44,4 +44,36 @@ test('invalid editorial brief stops before generating or saving', async () => {
     (error) => error.code === 'AI_OUTPUT_ERROR'
   );
   assert.deepEqual(calls, []);
+});
+
+test('free user at monthly limit is rejected before any AI calls', async () => {
+  const calls = [];
+  const service = createGenerationService({
+    contentService: { extractContent: async () => { calls.push('extract'); return { content: 'content' }; } },
+    aiService: { summarize: async () => { calls.push('summarize'); return 'summary'; } },
+    historyRepository: { countThisMonth: () => 3, createCarouselIfAllowed: () => { calls.push('save'); } },
+    clock: () => new Date('2026-08-05T00:00:00.000Z'), createId: () => 'id'
+  });
+  await assert.rejects(
+    () => service.generate({ input: 'input', sourceType: 'topic', strategy: 'viral_hook', template: 'template_1', userId: 'u1', plan: 'free' }),
+    (error) => error.code === 'GENERATION_LIMIT_REACHED' && error.status === 429 && error.details.usage === '3/3'
+  );
+  assert.deepEqual(calls, []);
+});
+
+test('premium user is never blocked regardless of usage', async () => {
+  const calls = [];
+  const service = createGenerationService({
+    contentService: { extractContent: async () => { calls.push('extract'); return { content: 'content' }; } },
+    aiService: {
+      summarize: async () => { calls.push('summarize'); return 'summary'; },
+      createEditorialBrief: async () => { calls.push('brief'); return JSON.stringify(brief); },
+      generateCarousel: async () => { calls.push('generate'); return JSON.stringify({ title: 'Title', summary: 'Summary', slides, captionIdeas: ['Caption one', 'Caption two'], hashtags: ['#tag1', '#tag2'] }); }
+    },
+    historyRepository: { countThisMonth: () => 999, createCarouselIfAllowed: (record) => { calls.push('save'); return record; } },
+    clock: () => new Date('2026-08-05T00:00:00.000Z'), createId: () => 'id'
+  });
+  const result = await service.generate({ input: 'input', sourceType: 'topic', strategy: 'viral_hook', template: 'template_1', userId: 'u1', plan: 'premium' });
+  assert.deepEqual(calls, ['extract', 'summarize', 'brief', 'generate', 'save']);
+  assert.equal(result.slides.length, 6);
 });

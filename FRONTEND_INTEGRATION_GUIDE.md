@@ -17,7 +17,7 @@ HookSlides AI turns a topic, an article URL, or a YouTube video into a ready-to-
 - Three visual templates: `template_1`, `template_2`, `template_3` (layout only — the backend does not render images in the MVP).
 - History: list, view, and delete previously generated carousels.
 - Cookie-based authentication: register/login issue an HTTP-only `sid` session cookie; generation, extraction, and history are scoped to the authenticated user.
-- No payments in the MVP.
+- Free and Premium plans: Free users can generate 3 carousels per calendar month; Premium users have unlimited generation. Billing/payment processing is not implemented in the backend.
 - No image export in the MVP — the backend returns structured JSON; rendering carousel images is a frontend (or future backend) concern.
 
 ### Overall application flow
@@ -111,8 +111,37 @@ Accepts the same body, authenticates the user, and sets `sid`. Returns `401 INVA
 Returns the authenticated user:
 
 ```json
-{ "success": true, "message": "Authenticated user.", "data": { "id": "user-uuid", "username": "creator_name" } }
+{ "success": true, "message": "Authenticated user.", "data": { "id": "user-uuid", "username": "creator_name", "plan": "free" } }
 ```
+
+`plan` is `free` by default for new users. Premium users receive `plan: "premium"`.
+
+#### Usage limits
+
+- `free`: 3 carousel generations per calendar month
+- `premium`: unlimited generations
+
+When a free user hits the cap, `POST /api/generate` returns `429` with `error.code = "GENERATION_LIMIT_REACHED"`, plus `error.usage` (e.g. `3/3`) and `error.resetsAt` (ISO timestamp for the next month boundary).
+
+Example:
+
+```json
+{
+  "success": false,
+  "message": "Monthly carousel generation limit reached.",
+  "error": {
+    "code": "GENERATION_LIMIT_REACHED",
+    "usage": "3/3",
+    "resetsAt": "2026-09-01T00:00:00.000Z"
+  }
+}
+```
+
+The limit resets automatically at the start of each calendar month.
+
+`/api/generate`, `/api/extract`, and all `/api/history*` endpoints require authentication and return `401 UNAUTHORIZED` without a valid, unexpired `sid` cookie.
+
+### Response envelope
 
 #### `POST /api/auth/logout`
 
@@ -122,8 +151,12 @@ Clears the current session cookie. Safe to call when no session exists.
 
 ### Response envelope
 
+> Note: the top-level `error` object may include extra fields for specific failures. The monthly generation limit error adds `usage` and `resetsAt`.
+
 Every endpoint, including errors, returns this shape:
 
+```json
+{
 ```json
 {
   "success": true,

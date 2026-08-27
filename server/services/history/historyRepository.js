@@ -1,13 +1,50 @@
 import { toCarousel } from '../../models/carousel.js';
+import { AppError, PLAN_LIMITS } from '../../constants/errors.js';
+
+// Calendar-month bounds as ISO strings, e.g. now=2026-08-27 -> [2026-08-01T00:00:00.000Z, 2026-09-01T00:00:00.000Z)
+function currentMonthRange(now = new Date()) {
+  const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+  const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
+  return { start: start.toISOString(), end: end.toISOString() };
+}
 
 export function createHistoryRepository(db) {
   const insert = db.prepare(`INSERT INTO carousels
     (id, user_id, title, source_type, original_input, extracted_content, strategy, template, slides_json, summary, caption_ideas_json, hashtags_json, created_at, updated_at)
     VALUES (@id, @userId, @title, @sourceType, @originalInput, @extractedContent, @strategy, @template, @slidesJson, @summary, @captionIdeasJson, @hashtagsJson, @createdAt, @updatedAt)`);
+  const countThisMonth = db.prepare('SELECT COUNT(*) AS count FROM carousels WHERE user_id = ? AND created_at >= ? AND created_at < ?');
+
+  function runInsert(record) {
+    insert.run({ ...record, slidesJson: JSON.stringify(record.slides), captionIdeasJson: JSON.stringify(record.captionIdeas), hashtagsJson: JSON.stringify(record.hashtags) });
+    return record;
+  }
+
+  // Atomic check-and-insert: better-sqlite3 transactions run as one sync unit on Node's
+  // single thread, so no other request can interleave between the count and the insert.
+  // ponytail: single-process guarantee only; if the server is ever horizontally scaled,
+  // swap for a DB-level constraint (e.g. a unique per-month usage row with UPSERT).
+  const createCarouselIfAllowed = db.transaction((record, plan) => {
+    const limit = PLAN_LIMITS[plan] ?? PLAN_LIMITS.free;
+    if (limit !== Infinity) {
+      const { start, end } = currentMonthRange();
+      const { count } = countThisMonth.get(record.userId, start, end);
+      if (count >= limit) {
+        throw new AppError('Monthly carousel generation limit reached.', {
+          status: 429,
+          code: 'GENERATION_LIMIT_REACHED',
+          details: { usage: `${count}/${limit}`, resetsAt: end },
+        });
+      }
+    }
+    return runInsert(record);
+  });
+
   return {
-    createCarousel(record) {
-      insert.run({ ...record, slidesJson: JSON.stringify(record.slides), captionIdeasJson: JSON.stringify(record.captionIdeas), hashtagsJson: JSON.stringify(record.hashtags) });
-      return record;
+    createCarousel: runInsert,
+    createCarouselIfAllowed,
+    countThisMonth(userId) {
+      const { start, end } = currentMonthRange();
+      return countThisMonth.get(userId, start, end).count;
     },
     listCarousels({ page = 1, limit = 20, userId }) {
       const total = db.prepare('SELECT COUNT(*) AS total FROM carousels WHERE user_id = ?').get(userId).total;

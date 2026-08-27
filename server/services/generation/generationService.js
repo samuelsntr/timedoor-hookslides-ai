@@ -1,11 +1,20 @@
-import { AppError } from '../../constants/errors.js';
+import { AppError, PLAN_LIMITS } from '../../constants/errors.js';
 import { validateCarousel } from '../../validators/carousel.js';
 import { validateEditorialBrief } from '../../validators/editorialBrief.js';
 import { extractJson } from '../../utils/content.js';
 
 export function createGenerationService({ contentService, aiService, historyRepository, clock = () => new Date(), createId }) {
   return {
-    async generate({ input, sourceType, strategy, template, userId }) {
+    async generate({ input, sourceType, strategy, template, userId, plan = 'free' }) {
+      const limit = PLAN_LIMITS[plan] ?? PLAN_LIMITS.free;
+      if (limit !== Infinity && historyRepository.countThisMonth(userId) >= limit) {
+        throw new AppError('Monthly carousel generation limit reached.', {
+          status: 429,
+          code: 'GENERATION_LIMIT_REACHED',
+          details: { usage: `${limit}/${limit}` },
+        });
+      }
+
       const extracted = await contentService.extractContent({ sourceType, input });
       const summary = await aiService.summarize(extracted.content);
 
@@ -23,7 +32,7 @@ export function createGenerationService({ contentService, aiService, historyRepo
 
       const now = clock().toISOString();
       const record = { id: createId(), userId, ...result.data, originalInput: input, extractedContent: extracted.content, createdAt: now, updatedAt: now };
-      historyRepository.createCarousel(record);
+      historyRepository.createCarouselIfAllowed(record, plan);
       return record;
     }
   };
