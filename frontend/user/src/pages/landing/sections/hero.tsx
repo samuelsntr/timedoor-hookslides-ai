@@ -80,11 +80,11 @@ function Hero({ onStart }: { onStart: () => void }) {
           </span>
         </div>
 
-        <h1 
+        <h1
           className={`mt-6 text-[2.75rem] font-semibold leading-[1.05] text-[#1c1a17] sm:text-6xl lg:text-[4.25rem] transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
           style={{ transitionDelay: '0.25s' }}
         >
-          Turn one idea into a <em className="relative inline-block font-normal italic text-[#e24b2c]">
+          Turn ideas into a <em className="relative inline-block font-normal italic text-[#e24b2c]">
             brand-ready
             <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 100 10" preserveAspectRatio="none">
               <path d="M0 8 Q 50 -2 100 8" fill="none" stroke="#e24b2c" strokeWidth="1.5" strokeOpacity="0.3" strokeLinecap="round" />
@@ -92,7 +92,7 @@ function Hero({ onStart }: { onStart: () => void }) {
           </em> carousel in 60 seconds.
         </h1>
 
-        <p 
+        <p
           className={`mt-6 max-w-xl text-lg leading-relaxed text-[#5c574e] transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
           style={{ transitionDelay: '0.4s' }}
         >
@@ -129,8 +129,8 @@ function Hero({ onStart }: { onStart: () => void }) {
           {/* Card 3 (Left - End Slide) */}
           <div
             className={`absolute inset-0 z-0 origin-bottom-left transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isMounted
-                ? '-translate-x-[24%] -rotate-[8deg] scale-100 opacity-90'
-                : 'translate-x-0 rotate-0 scale-75 opacity-0'
+              ? '-translate-x-[24%] -rotate-[8deg] scale-100 opacity-90'
+              : 'translate-x-0 rotate-0 scale-75 opacity-0'
               } ${isSettled ? 'group-hover:-translate-x-[32%] group-hover:-rotate-[12deg]' : ''}`}
             style={{ transitionDelay: isMounted ? '0.2s' : '0s' }}
             aria-hidden="true"
@@ -141,8 +141,8 @@ function Hero({ onStart }: { onStart: () => void }) {
           {/* Card 2 (Right - Middle Slide) */}
           <div
             className={`absolute inset-0 z-10 origin-bottom-right transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isMounted
-                ? 'translate-x-[24%] rotate-[8deg] scale-100 opacity-90'
-                : 'translate-x-0 rotate-0 scale-75 opacity-0'
+              ? 'translate-x-[24%] rotate-[8deg] scale-100 opacity-90'
+              : 'translate-x-0 rotate-0 scale-75 opacity-0'
               } ${isSettled ? 'group-hover:translate-x-[32%] group-hover:rotate-[12deg]' : ''}`}
             style={{ transitionDelay: isMounted ? '0.3s' : '0s' }}
             aria-hidden="true"

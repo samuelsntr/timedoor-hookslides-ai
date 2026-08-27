@@ -5,6 +5,7 @@ import { useAuthContext } from "@/features/auth/auth-context"
 
 import "@/styles/landing.css"
 
+import logo from "@/assets/logohs.png"
 import { BeforeAfter } from "./sections/before-after"
 import { FinalCta } from "./sections/final-cta"
 import { Hero } from "./sections/hero"
@@ -47,7 +48,10 @@ function LandingPage() {
 
       <footer className="border-t border-[#e4ddd0] bg-[#faf7f2]">
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-4 px-6 py-8 md:flex-row md:px-10">
-          <span className="font-[Fraunces,serif] text-sm font-semibold text-[#1c1a17]">HookSlides AI © 2026</span>
+          <div className="flex items-center gap-2.5">
+            <img src={logo} alt="HookSlides Logo" className="size-5.5 object-contain" />
+            <span className="font-[Fraunces,serif] text-sm font-semibold text-[#1c1a17]">HookSlides AI © 2026</span>
+          </div>
           <div className="flex gap-6 text-sm text-[#5c574e]">
             <a href="#privacy" className="transition-colors hover:text-[#e24b2c]">
               Privacy
