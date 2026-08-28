@@ -488,10 +488,6 @@ function PricingPage() {
           <div className="absolute inset-0 bg-[#1c1a17]/75 backdrop-blur-[1px]" aria-hidden="true" />
 
           <Reveal className="relative mx-auto flex w-full max-w-3xl flex-col items-center px-6 py-20 text-center md:py-28">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#faf7f2] backdrop-blur-md">
-              <Zap className="size-3.5 text-[#e24b2c]" />
-              Start in 60 Seconds
-            </span>
             <h2 className="mt-5 font-[Fraunces,serif] text-3xl font-bold leading-[1.12] text-[#faf7f2] sm:text-4xl lg:text-5xl">
               Turn your best ideas into viral carousels today.
             </h2>
