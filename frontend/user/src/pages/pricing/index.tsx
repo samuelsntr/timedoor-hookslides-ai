@@ -611,7 +611,10 @@ function PricingPage() {
                 No, Go Back
               </Button>
               <Button
-                onClick={() => (window.location.href = "/checkout")}
+                onClick={() => {
+                  const planParam = upgradePlan ? upgradePlan.name.toLowerCase() : "creator"
+                  navigate(`/checkout?plan=${planParam}`)
+                }}
                 className="grow cursor-pointer rounded-full bg-[#e24b2c] py-3.5 text-sm font-bold text-white shadow-md shadow-[#e24b2c]/25 transition-all hover:bg-[#c93d21]"
               >
                 Proceed to Payment
