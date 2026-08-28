@@ -25,7 +25,6 @@ const plans = [
     name: "Free",
     price: "$0",
     numericPrice: 0,
-    badge: "Starter",
     description: "Try HookSlides and create your first carousels.",
     features: [
       "5 carousels/month",
@@ -41,7 +40,6 @@ const plans = [
     name: "Creator",
     price: "$12",
     numericPrice: 12,
-    badge: "Most Popular",
     description: "Create consistently without spending hours designing.",
     features: [
       "50 carousels/month",
@@ -58,7 +56,6 @@ const plans = [
     name: "Pro",
     price: "$29",
     numericPrice: 29,
-    badge: "Power User",
     description: "For creators and businesses serious about content.",
     features: [
       "200 carousels/month",
@@ -228,10 +225,6 @@ function PricingPage() {
         <section className="relative overflow-hidden px-6 pt-16 pb-12 md:px-10 md:pt-24 md:pb-16">
           <div className="mx-auto max-w-4xl text-center">
             <Reveal>
-              <span className="inline-flex items-center gap-2 rounded-full border border-[#e4ddd0] bg-white px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#5c574e] shadow-sm">
-                <span className="size-1.5 rounded-full bg-[#e24b2c]" aria-hidden="true" />
-                Simple & Transparent Pricing
-              </span>
               <h1 className="mt-6 font-[Fraunces,serif] text-3xl font-bold leading-[1.12] tracking-tight text-[#1c1a17] sm:text-4xl md:text-5xl lg:text-6xl">
                 Choose the perfect plan for your <span className="italic text-[#e24b2c]">growth.</span>
               </h1>
@@ -283,18 +276,6 @@ function PricingPage() {
                     <div>
                       {/* Plan Header */}
                       <div className="mb-6">
-                        <div className="flex items-center justify-between">
-                          <span
-                            className={cn(
-                              "inline-block rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider",
-                              isPopular
-                                ? "bg-[#f6d9cf] text-[#e24b2c]"
-                                : "bg-[#f1ece3] text-[#5c574e]",
-                            )}
-                          >
-                            {plan.badge}
-                          </span>
-                        </div>
                         <h3 className="mt-4 font-[Fraunces,serif] text-2xl font-bold text-[#1c1a17]">
                           {plan.name}
                         </h3>
@@ -370,10 +351,6 @@ function PricingPage() {
           <div className="mx-auto max-w-5xl">
             <Reveal>
               <div className="text-center">
-                <span className="inline-flex items-center gap-2 rounded-full border border-[#e4ddd0] bg-white px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#5c574e] shadow-sm">
-                  <span className="size-1.5 rounded-full bg-[#e24b2c]" aria-hidden="true" />
-                  Compare Plans
-                </span>
                 <h2 className="mt-4 font-[Fraunces,serif] text-2xl font-bold text-[#1c1a17] sm:text-3xl md:text-4xl">
                   Detailed feature breakdown
                 </h2>
