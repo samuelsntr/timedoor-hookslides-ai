@@ -8,18 +8,18 @@ import {
   Palette,
   AlignLeft,
   Download,
-  Sparkles,
+  AlertTriangle,
 } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
 const visualSteps = [
-  { text: "Research", icon: Search, color: "text-[#6D5EF7]", bg: "bg-[#6D5EF7]/10", border: "border-[#6D5EF7]/20", pos: "left-[-4%] sm:left-[-2%] top-[12%]", delay: 0, appearDelay: 0.2 },
-  { text: "Write", icon: PenTool, color: "text-[#e24b2c]", bg: "bg-[#e24b2c]/10", border: "border-[#e24b2c]/20", pos: "left-[-8%] sm:left-[-6%] top-[48%]", delay: 1.2, appearDelay: 0.4 },
-  { text: "Rewrite", icon: RotateCcw, color: "text-[#d97706]", bg: "bg-[#d97706]/10", border: "border-[#d97706]/20", pos: "left-[2%] sm:left-[4%] bottom-[6%]", delay: 2.5, appearDelay: 0.6 },
-  { text: "Structure", icon: Layout, color: "text-[#4F8EF7]", bg: "bg-[#4F8EF7]/10", border: "border-[#4F8EF7]/20", pos: "left-[50%] top-[-4%]", delay: 0.8, appearDelay: 0.8 },
-  { text: "Design", icon: Palette, color: "text-[#db2777]", bg: "bg-[#db2777]/10", border: "border-[#db2777]/20", pos: "right-[-4%] sm:right-[-2%] top-[18%]", delay: 1.7, appearDelay: 1.0 },
-  { text: "Format", icon: AlignLeft, color: "text-[#0891b2]", bg: "bg-[#0891b2]/10", border: "border-[#0891b2]/20", pos: "right-[-8%] sm:right-[-6%] top-[54%]", delay: 3.1, appearDelay: 1.2 },
-  { text: "Export", icon: Download, color: "text-[#16a34a]", bg: "bg-[#16a34a]/10", border: "border-[#16a34a]/20", pos: "right-[4%] sm:right-[6%] bottom-[4%]", delay: 2.1, appearDelay: 1.4 },
+  { text: "Research", icon: Search, color: "text-[#6D5EF7]", bg: "bg-[#6D5EF7]/10", border: "border-[#6D5EF7]/30", pos: "left-[-4%] sm:left-[-2%] top-[12%]", delay: 0.1, appearDelay: 0.1 },
+  { text: "Write", icon: PenTool, color: "text-[#e24b2c]", bg: "bg-[#e24b2c]/10", border: "border-[#e24b2c]/30", pos: "left-[-8%] sm:left-[-6%] top-[48%]", delay: 0.5, appearDelay: 0.2 },
+  { text: "Rewrite", icon: RotateCcw, color: "text-[#d97706]", bg: "bg-[#d97706]/10", border: "border-[#d97706]/30", pos: "left-[2%] sm:left-[4%] bottom-[6%]", delay: 0.9, appearDelay: 0.3 },
+  { text: "Structure", icon: Layout, color: "text-[#4F8EF7]", bg: "bg-[#4F8EF7]/10", border: "border-[#4F8EF7]/30", pos: "left-[50%] top-[-4%]", delay: 0.3, appearDelay: 0.15 },
+  { text: "Design", icon: Palette, color: "text-[#db2777]", bg: "bg-[#db2777]/10", border: "border-[#db2777]/30", pos: "right-[-4%] sm:right-[-2%] top-[18%]", delay: 0.7, appearDelay: 0.25 },
+  { text: "Format", icon: AlignLeft, color: "text-[#0891b2]", bg: "bg-[#0891b2]/10", border: "border-[#0891b2]/30", pos: "right-[-8%] sm:right-[-6%] top-[54%]", delay: 1.1, appearDelay: 0.35 },
+  { text: "Export", icon: Download, color: "text-[#16a34a]", bg: "bg-[#16a34a]/10", border: "border-[#16a34a]/30", pos: "right-[4%] sm:right-[6%] bottom-[4%]", delay: 1.3, appearDelay: 0.4 },
 ]
 
 function Problem() {
@@ -35,7 +35,7 @@ function Problem() {
           observer.disconnect()
         }
       },
-      { threshold: 0.4 }
+      { threshold: 0.15 }
     )
 
     if (containerRef.current) {
@@ -70,8 +70,8 @@ function Problem() {
           </Reveal>
         </div>
 
-        {/* Right Column: Interactive Overload Visual */}
-        <Reveal delay={150}>
+        {/* Right Column: Animated Problem Overload Visual */}
+        <Reveal delay={100}>
           <div
             ref={containerRef}
             onMouseMove={handleMouseMove}
@@ -79,35 +79,55 @@ function Problem() {
             className="relative mx-auto flex w-full max-w-4xl items-center justify-center py-12 lg:min-h-[46rem]"
           >
             <style>{`
+              @keyframes dash-flow {
+                0% { stroke-dashoffset: 40; }
+                100% { stroke-dashoffset: 0; }
+              }
               @keyframes float-center {
-                0%, 100% { transform: translateY(0px); }
-                50% { transform: translateY(-8px); }
+                0%, 100% { transform: translateY(0px) scale(1); }
+                50% { transform: translateY(-8px) scale(1.01); }
               }
               @keyframes float-badge {
                 0%, 100% { transform: translateY(0px); }
-                50% { transform: translateY(-10px); }
+                50% { transform: translateY(-7px); }
+              }
+              @keyframes danger-pulse {
+                0%, 100% { opacity: 0.35; transform: translate(-50%, -50%) scale(0.96); }
+                50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.06); }
+              }
+              @keyframes ping-slow {
+                0% { transform: scale(1); opacity: 0.8; }
+                50% { transform: scale(1.4); opacity: 0; }
+                100% { transform: scale(1); opacity: 0; }
               }
             `}</style>
 
-            {/* Background Atmosphere Glow */}
+            {/* Glowing Problem Atmosphere Ring */}
             <div
-              className={`absolute left-1/2 top-1/2 h-[80%] w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-[#6D5EF7]/10 to-[#e24b2c]/10 blur-[100px] transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+              className={`absolute left-1/2 top-1/2 h-[75%] w-[75%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-[#e24b2c]/20 via-[#d97706]/15 to-[#db2777]/15 blur-[90px] transition-all duration-1000 ${
+                isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
+              }`}
+              style={{
+                animation: isVisible ? "danger-pulse 6s ease-in-out infinite" : "none",
+              }}
             />
 
-            {/* Dotted & Orbital SVG Background */}
+            {/* Animated SVG Chaos Connector Web */}
             <svg
-              className={`pointer-events-none absolute inset-0 h-[120%] w-[120%] -translate-x-[10%] -translate-y-[10%] transition-all duration-[1500ms] ease-out ${isVisible ? 'opacity-80 scale-100' : 'opacity-0 scale-95'}`}
+              className={`pointer-events-none absolute inset-0 h-[120%] w-[120%] -translate-x-[10%] -translate-y-[10%] transition-all duration-1000 ease-out ${
+                isVisible ? "opacity-90 scale-100" : "opacity-0 scale-95"
+              }`}
               viewBox="0 0 800 600"
               preserveAspectRatio="xMidYMid meet"
-              style={{ transform: `translate(${mousePos.x * -10}px, ${mousePos.y * -10}px)` }}
+              style={{ transform: `translate(${mousePos.x * -8}px, ${mousePos.y * -8}px)` }}
             >
               <defs>
                 <pattern id="problem-dot-pattern" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
-                  <circle cx="2" cy="2" r="1.5" fill="#1c1a17" fillOpacity="0.14" />
+                  <circle cx="2" cy="2" r="1.5" fill="#1c1a17" fillOpacity="0.12" />
                 </pattern>
                 <radialGradient id="problem-mask-gradient" cx="50%" cy="50%" r="50%">
                   <stop offset="0%" stopColor="white" stopOpacity="1" />
-                  <stop offset="65%" stopColor="white" stopOpacity="0.75" />
+                  <stop offset="70%" stopColor="white" stopOpacity="0.8" />
                   <stop offset="100%" stopColor="white" stopOpacity="0" />
                 </radialGradient>
                 <mask id="problem-dot-mask">
@@ -118,47 +138,87 @@ function Problem() {
               <rect width="100%" height="100%" fill="url(#problem-dot-pattern)" mask="url(#problem-dot-mask)" />
 
               <g transform="translate(400, 300)">
-                <ellipse rx="260" ry="260" fill="none" stroke="#1c1a17" strokeOpacity="0.12" strokeWidth="1.5" strokeDasharray="4 8" />
-                <ellipse rx="330" ry="330" fill="none" stroke="#6D5EF7" strokeOpacity="0.15" strokeWidth="1.5" strokeDasharray="5 10" />
+                {/* Orbit Rings */}
+                <ellipse rx="250" ry="250" fill="none" stroke="#e24b2c" strokeOpacity="0.2" strokeWidth="1.5" strokeDasharray="6 8" />
+                <ellipse rx="320" ry="320" fill="none" stroke="#d97706" strokeOpacity="0.15" strokeWidth="1.5" strokeDasharray="4 10" />
 
-                <path d="M -190 -190 Q -60 -280 120 -240" fill="none" stroke="#e24b2c" strokeOpacity="0.4" strokeWidth="2" strokeDasharray="4 6" />
-                <path d="M 240 -160 Q 330 0 260 210" fill="none" stroke="#6D5EF7" strokeOpacity="0.3" strokeWidth="2" strokeDasharray="4 6" />
-                <path d="M 160 260 Q 0 340 -210 210" fill="none" stroke="#4F8EF7" strokeOpacity="0.35" strokeWidth="2" strokeDasharray="3 5" />
+                {/* Animated Chaos Flow Lines */}
+                <path
+                  d="M -190 -190 Q -60 -280 120 -240"
+                  fill="none"
+                  stroke="#e24b2c"
+                  strokeOpacity="0.5"
+                  strokeWidth="2"
+                  strokeDasharray="5 7"
+                  style={{ animation: "dash-flow 2s linear infinite" }}
+                />
+                <path
+                  d="M 240 -160 Q 330 0 260 210"
+                  fill="none"
+                  stroke="#db2777"
+                  strokeOpacity="0.4"
+                  strokeWidth="2"
+                  strokeDasharray="4 6"
+                  style={{ animation: "dash-flow 2.5s linear infinite" }}
+                />
+                <path
+                  d="M 160 260 Q 0 340 -210 210"
+                  fill="none"
+                  stroke="#6D5EF7"
+                  strokeOpacity="0.45"
+                  strokeWidth="2"
+                  strokeDasharray="4 8"
+                  style={{ animation: "dash-flow 3s linear infinite" }}
+                />
 
-                <circle cx="-190" cy="-190" r="4" fill="#e24b2c" className="opacity-90" />
-                <circle cx="120" cy="-240" r="5" fill="#6D5EF7" className="opacity-70" />
-                <circle cx="260" cy="210" r="3.5" fill="#1c1a17" className="opacity-50" />
-                <circle cx="-210" cy="210" r="4.5" fill="#4F8EF7" className="opacity-80" />
+                {/* Alert Warning Node Dots */}
+                <circle cx="-190" cy="-190" r="4.5" fill="#e24b2c" className="animate-pulse" />
+                <circle cx="120" cy="-240" r="5" fill="#d97706" className="animate-pulse" />
+                <circle cx="260" cy="210" r="4" fill="#db2777" />
+                <circle cx="-210" cy="210" r="5" fill="#6D5EF7" className="animate-pulse" />
               </g>
             </svg>
 
-            {/* Central 3D Pop-Out Composition */}
+            {/* Central Creator Image Composition */}
             <div
-              className={`relative z-10 mx-auto flex w-full max-w-[24rem] items-center justify-center sm:max-w-[28rem] lg:max-w-[30rem] transition-all duration-[1200ms] ease-out ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'}`}
+              className={`relative z-10 mx-auto flex w-full max-w-[24rem] items-center justify-center sm:max-w-[28rem] lg:max-w-[30rem] transition-all duration-700 ease-out ${
+                isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-90"
+              }`}
               style={{
-                animation: isVisible ? "float-center 7s ease-in-out infinite" : "none",
-                transform: `translate(${mousePos.x * -5}px, ${mousePos.y * -5}px)`
+                animation: isVisible ? "float-center 6s ease-in-out infinite" : "none",
+                transform: `translate(${mousePos.x * -5}px, ${mousePos.y * -5}px)`,
               }}
             >
-              <div className="relative aspect-square w-[85%] rounded-full border border-white/80 bg-gradient-to-b from-[#faf7f2] via-[#f5efe4] to-[#e8dfd2] p-3 shadow-[0_30px_60px_-15px_rgba(28,26,23,0.22)] backdrop-blur-md">
-                <div className="h-full w-full rounded-full border border-[#1c1a17]/10 bg-gradient-to-tr from-[#6D5EF7]/10 via-transparent to-[#e24b2c]/10" />
+              {/* Outer Pulsing Stress Ring */}
+              <div className="absolute inset-0 rounded-full border-2 border-[#e24b2c]/30 animate-[ping-slow_4s_ease-in-out_infinite]" />
+
+              <div className="relative aspect-square w-[85%] rounded-full border-2 border-[#e24b2c]/25 bg-gradient-to-b from-[#faf7f2] via-[#f7ebd8] to-[#e8dfd2] p-3 shadow-[0_30px_60px_-15px_rgba(226,75,44,0.25)] backdrop-blur-md">
+                <div className="h-full w-full rounded-full border border-[#e24b2c]/15 bg-gradient-to-tr from-[#e24b2c]/10 via-transparent to-[#d97706]/10" />
               </div>
 
+              {/* Creator Photo */}
               <div className="absolute -bottom-4 left-1/2 w-[95%] -translate-x-1/2 sm:w-[92%]">
                 <img
                   src={problemPhoto}
-                  alt="A content creator feeling overwhelmed by the creation process"
+                  alt="Content creator overwhelmed by manual design work"
                   loading="lazy"
                   decoding="async"
-                  className="w-full object-contain drop-shadow-[0_20px_35px_rgba(28,26,23,0.25)]"
+                  className="w-full object-contain drop-shadow-[0_22px_35px_rgba(226,75,44,0.25)]"
                 />
               </div>
 
+              {/* High Impact Problem Headline Badge */}
               <div
-                className={`absolute -bottom-2 left-[8%] z-20 flex items-center gap-2 rounded-full border border-white/40 bg-[#1c1a17] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#faf7f2] shadow-[0_12px_24px_-4px_rgba(28,26,23,0.4)] backdrop-blur-md transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}
+                className={`absolute -bottom-5 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2.5 rounded-full border border-[#e24b2c]/40 bg-[#1c1a17] px-4 py-2 text-xs font-bold text-[#faf7f2] shadow-[0_16px_32px_-6px_rgba(28,26,23,0.5)] backdrop-blur-md transition-all duration-700 delay-200 ${
+                  isVisible ? "opacity-100 scale-100" : "opacity-0 scale-50"
+                }`}
               >
-                <Sparkles className="size-4 text-[#e24b2c]" />
-                One idea
+                <span className="relative flex size-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#e24b2c] opacity-75"></span>
+                  <span className="relative inline-flex size-2.5 rounded-full bg-[#e24b2c]"></span>
+                </span>
+                <span className="uppercase tracking-wider text-[#e24b2c]">Problem:</span>
+                <span className="font-medium text-white">7 Manual Steps = Hours Wasted</span>
               </div>
             </div>
 
@@ -174,13 +234,13 @@ function Problem() {
                   }}
                 >
                   <div
-                    className={`transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-75 translate-y-8"
+                    className={`transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-75 translate-y-8"
                       }`}
                     style={{ transitionDelay: isVisible ? `${step.appearDelay}s` : '0s' }}
                   >
                     <div
-                      className="group pointer-events-auto flex items-center gap-3 rounded-2xl border border-white/90 bg-white/90 px-4 py-3 shadow-[0_8px_24px_-8px_rgba(28,26,23,0.18)] backdrop-blur-md transition-colors duration-300 hover:bg-white hover:shadow-[0_16px_32px_-8px_rgba(28,26,23,0.25)]"
-                      style={{ animation: isVisible ? `float-badge 5s ease-in-out infinite ${step.delay}s` : 'none' }}
+                      className="group pointer-events-auto flex items-center gap-3 rounded-2xl border border-white/90 bg-white/95 px-4 py-3 shadow-[0_12px_28px_-8px_rgba(28,26,23,0.2)] backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white hover:shadow-[0_18px_36px_-8px_rgba(226,75,44,0.3)]"
+                      style={{ animation: isVisible ? `float-badge 4.5s ease-in-out infinite ${step.delay}s` : 'none' }}
                     >
                       <div className="flex items-center gap-3 transition-transform duration-300 group-hover:scale-105">
                         <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${step.bg} ${step.border} border`}>
@@ -209,13 +269,13 @@ function Problem() {
                     }`}
                 >
                   <div
-                    className={`transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-75 translate-y-6"
+                    className={`transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-75 translate-y-6"
                       }`}
                     style={{ transitionDelay: isVisible ? `${step.appearDelay}s` : '0s' }}
                   >
                     <div
-                      className="pointer-events-auto flex items-center gap-2 rounded-xl border border-white/90 bg-white/90 px-3 py-2 shadow-[0_4px_16px_-4px_rgba(28,26,23,0.15)] backdrop-blur-md"
-                      style={{ animation: isVisible ? `float-badge 5s ease-in-out infinite ${step.delay}s` : 'none' }}
+                      className="pointer-events-auto flex items-center gap-2 rounded-xl border border-white/90 bg-white/95 px-3 py-2 shadow-md backdrop-blur-md"
+                      style={{ animation: isVisible ? `float-badge 4.5s ease-in-out infinite ${step.delay}s` : 'none' }}
                     >
                       <div className={`flex h-7 w-7 items-center justify-center rounded-lg ${step.bg} ${step.border} border`}>
                         <step.icon size={14} className={step.color} strokeWidth={2.5} />
@@ -234,4 +294,3 @@ function Problem() {
 }
 
 export { Problem }
-
