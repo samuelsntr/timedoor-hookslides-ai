@@ -4,6 +4,7 @@ import { CheckoutSuccessPage } from "@/pages/checkout/success"
 import { PricingPage } from "@/pages/pricing"
 import { GenerateCarouselPage } from "@/pages/generate/carousel"
 import { LandingPage } from "@/pages/landing"
+import { AdminPage } from "@/pages/admin"
 
 export const router = createBrowserRouter([
     {
@@ -25,5 +26,9 @@ export const router = createBrowserRouter([
     {
         path: "/checkout/success",
         element: <CheckoutSuccessPage />,
+    },
+    {
+        path: "/admin",
+        element: <AdminPage />,
     },
 ]);
