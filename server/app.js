@@ -14,6 +14,8 @@ import { createHistoryRoutes } from './routes/historyRoutes.js';
 import { createGenerationController } from './controllers/generationController.js';
 import { createExtractionController } from './controllers/extractionController.js';
 import { createHistoryController } from './controllers/historyController.js';
+import { createAdminRoutes } from './routes/adminRoutes.js';
+import { createAdminController } from './controllers/adminController.js';
 
 export function createApp({ services = {}, database } = {}) {
   const app = express();
@@ -23,7 +25,10 @@ export function createApp({ services = {}, database } = {}) {
   app.use(cors({ origin: process.env.FRONTEND_ORIGIN || 'http://localhost:5173', credentials: true }));
   app.use(rateLimit({ windowMs: 60_000, limit: 60, standardHeaders: true, legacyHeaders: false }));
   app.use(express.json({ limit: '256kb' }));
-  if (database) { app.use(createAuthRoutes(createAuthRepository(database), database)); }
+  if (database) {
+    app.use(createAuthRoutes(createAuthRepository(database), database));
+    app.use('/api', createAdminRoutes(createAdminController(database)));
+  }
   app.use(requestId);
   app.get('/health', (req, res) => res.json({ success: true, message: 'OK', data: { status: 'ok' } }));
   if (services.generation && services.extraction && services.history) {

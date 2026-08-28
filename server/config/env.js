@@ -7,7 +7,8 @@ const schema = z.object({
   DATABASE_PATH: z.string().min(1).default('./data/hookslides.sqlite'),
   GROQ_API_KEY: z.string().trim().optional(),
   OPENAI_API_KEY: z.string().trim().optional(),
-  GROQ_MODEL: z.string().min(1).default('llama-3.3-70b-versatile')
+  GROQ_MODEL: z.string().min(1).default('llama-3.3-70b-versatile'),
+  ADMIN_PASSWORD: z.string().trim().optional()
 });
 
 const parsed = schema.parse(process.env);
@@ -20,5 +21,6 @@ export const env = {
   databasePath: path.resolve(process.cwd(), parsed.DATABASE_PATH),
   groqApiKey: parsed.GROQ_API_KEY || null,
   openaiApiKey: parsed.OPENAI_API_KEY || null,
-  groqModel: parsed.GROQ_MODEL
+  groqModel: parsed.GROQ_MODEL,
+  adminPassword: parsed.ADMIN_PASSWORD || 'secretadmin'
 };
