@@ -62,7 +62,7 @@ function Problem() {
         <div className="relative z-20">
           <Reveal>
             <h2 className="text-4xl font-bold leading-[1.15] tracking-tight text-[#1c1a17] sm:text-5xl lg:text-[3.5rem]">
-              Stop wasting hours designing in Canva.
+              Your idea isn't the problem. The process is.
             </h2>
             <p className="mt-8 max-w-md text-lg leading-relaxed text-[#5c574e]">
               You have brilliant ideas, but turning them into polished, swipeable posts takes forever. Staring at a blank canvas shouldn't be the hardest part of content creation.

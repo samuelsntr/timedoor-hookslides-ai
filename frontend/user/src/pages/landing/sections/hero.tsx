@@ -102,12 +102,12 @@ function Hero({ onStart }: { onStart: () => void }) {
             className={`mt-6 text-[2.75rem] font-semibold leading-[1.05] text-[#1c1a17] sm:text-6xl lg:text-[4.25rem] transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             style={{ transitionDelay: '0.25s' }}
           >
-            Turn ideas into a <em className="relative inline-block font-normal italic text-[#e24b2c]">
-              brand-ready
+            Turn your ideas into <em className="relative inline-block font-normal italic text-[#e24b2c]">
+              carousels
               <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 100 10" preserveAspectRatio="none">
                 <path d="M0 8 Q 50 -2 100 8" fill="none" stroke="#e24b2c" strokeWidth="1.5" strokeOpacity="0.3" strokeLinecap="round" />
               </svg>
-            </em> carousel in 60 seconds.
+            </em> in 60 seconds.
           </h1>
 
           <p
