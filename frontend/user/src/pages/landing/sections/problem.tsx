@@ -8,7 +8,6 @@ import {
   Palette,
   AlignLeft,
   Download,
-  AlertTriangle,
 } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 

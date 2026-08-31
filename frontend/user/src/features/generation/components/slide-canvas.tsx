@@ -12,12 +12,20 @@ function toTemplateSlide(slide: Slide): TemplateSlide {
   return { type: slide.type as TemplateSlide["type"], heading: slide.title, body: slide.description }
 }
 
-function SlideCanvas({ slide, index, template, preview = false, thumbnail = false }: {
+function SlideCanvas({
+  slide,
+  index,
+  template,
+  preview = false,
+  thumbnail = false,
+  dataExportSlide = true,
+}: {
   slide: Slide
   index: number
   template: Template
   preview?: boolean
   thumbnail?: boolean
+  dataExportSlide?: boolean
 }) {
   const outerRef = useRef<HTMLDivElement | null>(null)
   const [scale, setScale] = useState(1)
@@ -46,7 +54,21 @@ function SlideCanvas({ slide, index, template, preview = false, thumbnail = fals
 
   return (
     <div ref={outerRef} className={cn("relative w-full", preview || thumbnail ? "overflow-hidden" : "h-[1350px] w-[1080px]")} style={preview || thumbnail ? { height: visualHeight, minHeight: visualHeight } : undefined}>
-      <div data-carousel-slide className={cn("absolute left-0 top-0 origin-top-left overflow-hidden", "[&_.slide-card]:rounded-none")} style={{ width: `${SLIDE_WIDTH}px`, height: `${SLIDE_HEIGHT}px`, minWidth: `${SLIDE_WIDTH}px`, minHeight: `${SLIDE_HEIGHT}px`, transform: `scale(${scale})`, transformOrigin: "top left" }}>
+      <div
+        {...(dataExportSlide ? { "data-carousel-slide": "" } : {})}
+        className={cn(
+          "absolute left-0 top-0 origin-top-left overflow-hidden",
+          "[&_.slide-card]:rounded-none",
+        )}
+        style={{
+          width: `${SLIDE_WIDTH}px`,
+          height: `${SLIDE_HEIGHT}px`,
+          minWidth: `${SLIDE_WIDTH}px`,
+          minHeight: `${SLIDE_HEIGHT}px`,
+          transform: `scale(${scale})`,
+          transformOrigin: "top left",
+        }}
+      >
         <SlideRenderer template={templateIds[template]} slide={toTemplateSlide(slide)} index={index} />
       </div>
     </div>

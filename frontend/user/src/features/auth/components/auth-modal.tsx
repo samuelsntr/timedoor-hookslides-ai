@@ -17,7 +17,6 @@ type AuthModalProps = {
 
 function AuthModal({
   open,
-  mode: initialMode = "login",
   onClose,
 }: AuthModalProps) {
   const {

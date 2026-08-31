@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { X, Sparkles, User, Calendar, Copy, Check, ChevronLeft, ChevronRight, Hash, MessageSquareText, Layers, Loader2 } from "lucide-react"
+import { X, User, Calendar, Copy, Check, ChevronLeft, ChevronRight, Hash, MessageSquareText, Layers, Loader2 } from "lucide-react"
 import { adminApi, type AdminCarouselDetail } from "@/services/admin-api"
 import { SlideCanvas } from "@/features/generation/components/slide-canvas"
 

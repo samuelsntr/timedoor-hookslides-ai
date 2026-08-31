@@ -8,7 +8,6 @@ import {
   HelpCircle,
   ShieldCheck,
   Sparkles,
-  Zap,
 } from "lucide-react"
 
 import "@/styles/landing.css"

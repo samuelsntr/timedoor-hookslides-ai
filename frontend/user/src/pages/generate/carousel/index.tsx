@@ -4,8 +4,10 @@ import {
   Check,
   Copy,
   Download,
+  Layers,
   LogOut,
   RotateCcw,
+  Smartphone,
   Sparkles,
   WandSparkles,
 } from "lucide-react"
@@ -27,6 +29,7 @@ import {
   templateNames,
 } from "@/features/generation/data"
 import { SlideCanvas } from "@/features/generation/components/slide-canvas"
+import { InstagramIphonePreview } from "@/features/generation/components/instagram-iphone-preview"
 import { useGenerateCarousel } from "@/features/generation/hooks/use-generate-carousel"
 import { exportCarousel } from "@/features/generation/services/carousel-export-service"
 import type { Template } from "@/features/generation/types"
@@ -39,6 +42,9 @@ function GenerateCarouselPage() {
 
   const [template, setTemplate] =
     useState<Template>("bold-accent")
+
+  const [previewMode, setPreviewMode] =
+    useState<"instagram" | "grid">("grid")
 
   const [input, setInput] = useState("")
 
@@ -512,43 +518,104 @@ function GenerateCarouselPage() {
         </section>
 
         <section className="flex flex-1 basis-0 flex-col gap-6 lg:min-h-0">
-          <div className="flex items-center justify-between px-2">
-            <h2 className="font-heading text-xl font-semibold text-[#1c1a17]">
-              Carousel Preview
-            </h2>
+          <div className="flex flex-wrap items-center justify-between gap-3 px-2">
+            <div className="flex items-center gap-3">
+              <h2 className="font-heading text-xl font-semibold text-[#1c1a17]">
+                Carousel Preview
+              </h2>
 
-            <span className="flex items-center gap-2 rounded-full bg-[#f6d9cf] px-3 py-1 text-sm font-medium text-[#e24b2c]">
-              <Sparkles className="size-3.5" />
-              6 Slides Drafted
-            </span>
+              <span className="flex items-center gap-2 rounded-full bg-[#f6d9cf] px-3 py-1 text-sm font-medium text-[#e24b2c]">
+                <Sparkles className="size-3.5" />
+                6 Slides Drafted
+              </span>
+            </div>
+
+            {/* View Mode Toggle: Instagram iPhone Mockup vs All Slides */}
+            <div className="flex items-center rounded-xl bg-[#e4ddd0]/70 p-1 shadow-2xs">
+              <button
+                type="button"
+                onClick={() => setPreviewMode("grid")}
+                className={cn(
+                  "flex cursor-pointer items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all",
+                  previewMode === "grid"
+                    ? "bg-white text-[#1c1a17] shadow-xs"
+                    : "text-[#5c574e] hover:text-[#1c1a17]",
+                )}
+              >
+                <Layers className="size-3.5" />
+                <span>All Slides</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setPreviewMode("instagram")}
+                className={cn(
+                  "flex cursor-pointer items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all",
+                  previewMode === "instagram"
+                    ? "bg-white text-[#1c1a17] shadow-xs"
+                    : "text-[#5c574e] hover:text-[#1c1a17]",
+                )}
+              >
+                <Smartphone className="size-3.5" />
+                <span>Instagram (Preview)</span>
+              </button>
+            </div>
           </div>
 
-          <ScrollArea className="relative max-h-125 min-h-0 flex-1 overflow-hidden rounded-2xl bg-[#f1ece3]">
-            <div className="flex flex-col items-center gap-8 py-8">
-              {carousel.slides
-                .slice(0, 6)
-                .map(
-                  (
-                    slide,
-                    index,
-                  ) => (
-                    <div
-                      key={`${slide.title}-${index}`}
-                      className="relative mx-auto w-full max-w-sm"
-                    >
-                      <SlideCanvas
-                        slide={slide}
-                        index={index}
-                        template={
-                          template
-                        }
-                        preview
-                      />
-                    </div>
-                  ),
-                )}
+          {previewMode === "instagram" ? (
+            <div className="flex flex-col items-center justify-center py-2">
+              <InstagramIphonePreview
+                carousel={carousel}
+                template={template}
+                displayName={displayName}
+                avatarInitial={avatarInitial}
+              />
             </div>
-          </ScrollArea>
+          ) : (
+            <ScrollArea className="relative max-h-165 min-h-0 flex-1 overflow-hidden rounded-2xl bg-[#f1ece3]">
+              <div className="flex flex-col items-center gap-8 py-8">
+                {carousel.slides
+                  .slice(0, 6)
+                  .map(
+                    (
+                      slide,
+                      index,
+                    ) => (
+                      <div
+                        key={`${slide.title}-${index}`}
+                        className="relative mx-auto w-full max-w-sm"
+                      >
+                        <SlideCanvas
+                          slide={slide}
+                          index={index}
+                          template={
+                            template
+                          }
+                          preview
+                          dataExportSlide={false}
+                        />
+                      </div>
+                    ),
+                  )}
+              </div>
+            </ScrollArea>
+          )}
+
+          {/* Offscreen Staging Container to Guarantee 6-Slide High-Res Export */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none fixed -left-[9999px] -top-[9999px] opacity-0 select-none"
+          >
+            {carousel.slides.slice(0, 6).map((slide, index) => (
+              <div key={`export-slide-${index}`} className="w-[1080px] h-[1350px]">
+                <SlideCanvas
+                  slide={slide}
+                  index={index}
+                  template={template}
+                  dataExportSlide={true}
+                />
+              </div>
+            ))}
+          </div>
 
           <div className="mt-4 flex gap-4">
             <Button

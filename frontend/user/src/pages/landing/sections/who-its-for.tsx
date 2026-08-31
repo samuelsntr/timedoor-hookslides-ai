@@ -1,4 +1,4 @@
-import { Check, Layers, Sparkles, TrendingUp, Users } from "lucide-react"
+import { Check, Layers, Sparkles, TrendingUp } from "lucide-react"
 
 import creatorPhoto from "@/assets/landing/audience-creator-photo.png"
 import founderPhoto from "@/assets/landing/audience-founder-photo.png"
