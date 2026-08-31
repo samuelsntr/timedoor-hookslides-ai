@@ -50,7 +50,7 @@ const slides = [
 ]
 
 function GenerateCarouselPage() {
-  const [strategy, setStrategy] = useState<(typeof strategies)[number]["id"]>("story")
+  const [strategy, setStrategy] = useState<(typeof strategies)[number]["id"]>("viral")
   const [template, setTemplate] = useState<"Bold Accent" | "Minimalist" | "Data Focused">("Bold Accent")
   const [copied, setCopied] = useState<string | null>(null)
   const { user, openAuthModal } = useAuthContext()
