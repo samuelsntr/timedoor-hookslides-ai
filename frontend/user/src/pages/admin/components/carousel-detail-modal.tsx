@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { X, Sparkles, User, Calendar, Copy, Check, ChevronLeft, ChevronRight, Hash, MessageSquareText, Layers, Loader2 } from "lucide-react"
 import { adminApi, type AdminCarouselDetail } from "@/services/admin-api"
+import { SlideCanvas } from "@/features/generation/components/slide-canvas"
 
 interface CarouselDetailModalProps {
   carouselId: string | null
@@ -222,48 +223,26 @@ export function CarouselDetailModal({ carouselId, secret, onClose, onSelectUser 
               {/* Slide Card View */}
               {currentSlide ? (
                 <div className="flex-1 flex flex-col justify-between rounded-2xl border border-[#e4ddd0] bg-white p-7 shadow-md min-h-[340px] transition-all">
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between border-b border-[#e4ddd0] pb-3">
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f6d9cf] px-3 py-1 text-xs font-bold text-[#e24b2c]">
-                        <Sparkles className="size-3.5" />
-                        Slide {currentSlide.slideNumber} • {currentSlide.type}
-                      </span>
-                      <span className="text-xs font-mono text-[#5c574e] font-semibold">{data.template}</span>
+                  <div className="flex justify-center items-center py-4 bg-[#f1ece3] rounded-xl overflow-hidden border border-[#e4ddd0]">
+                    <div className="relative w-full max-w-[300px]">
+                      <SlideCanvas
+                        slide={{
+                          type: currentSlide.type,
+                          title: (currentSlide as any).heading || currentSlide.hook || "",
+                          description: (currentSlide as any).body || currentSlide.content || "",
+                        }}
+                        index={activeSlide}
+                        template={
+                          ({
+                            template_1: "bold-accent",
+                            template_2: "minimalist",
+                            template_3: "data-focused",
+                            template_4: "timedoor",
+                          } as any)[data.template] || "bold-accent"
+                        }
+                        preview
+                      />
                     </div>
-
-                    {currentSlide.hook && (
-                      <div className="rounded-xl border border-[#e24b2c]/30 bg-[#f6d9cf]/30 p-4">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#e24b2c] block mb-1">
-                          Hook Headline
-                        </span>
-                        <p className="font-[Fraunces,serif] text-lg font-bold text-[#1c1a17]">{currentSlide.hook}</p>
-                      </div>
-                    )}
-
-                    <div className="space-y-1.5">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#5c574e] block">
-                        Body Content
-                      </span>
-                      <p className="text-sm leading-relaxed text-[#1c1a17] whitespace-pre-wrap">{currentSlide.content}</p>
-                    </div>
-
-                    {currentSlide.visualPrompt && (
-                      <div className="rounded-xl border border-[#e4ddd0] bg-[#faf7f2] p-3.5">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#5c574e] block mb-1">
-                          Visual Prompt / Layout Guidance
-                        </span>
-                        <p className="text-xs italic text-[#5c574e]">{currentSlide.visualPrompt}</p>
-                      </div>
-                    )}
-
-                    {currentSlide.engagementPrompt && (
-                      <div className="rounded-xl border border-[#e4ddd0] bg-[#f1ece3]/50 p-3.5">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#1c1a17] block mb-1">
-                          Engagement Call To Action
-                        </span>
-                        <p className="text-xs font-semibold text-[#1c1a17]">{currentSlide.engagementPrompt}</p>
-                      </div>
-                    )}
                   </div>
 
                   {/* Numbered slide pills */}
