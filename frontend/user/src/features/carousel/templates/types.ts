@@ -10,7 +10,7 @@ type Slide = {
   body: string
 }
 
-type TemplateId = "template_1" | "template_2" | "template_3"
+type TemplateId = "template_1" | "template_2" | "template_3" | "template_4"
 
 type Strategy = "viral_hook" | "storytelling" | "actionable_value"
 
@@ -32,6 +32,7 @@ const TEMPLATES: { id: TemplateId; name: string; blurb: string }[] = [
   { id: "template_1", name: "Bold", blurb: "High contrast. Impossible to scroll past." },
   { id: "template_2", name: "Editorial", blurb: "Quiet, considered, serif. Reads like print." },
   { id: "template_3", name: "Structured", blurb: "Numbered and scannable. Built for steps." },
+  { id: "template_4", name: "Timedoor", blurb: "Tech-driven and reliable. Built for digital products that scale." },
 ]
 
 export { SLIDE_TYPES, TEMPLATES }
