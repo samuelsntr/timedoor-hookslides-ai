@@ -1,4 +1,4 @@
-export const PLAN_LIMITS = { free: 3, premium: Infinity };
+export const PLAN_LIMITS = { free: 5, premium: Infinity };
 
 export class AppError extends Error {
   constructor(message, { status = 500, code = 'INTERNAL_ERROR', details } = {}) {

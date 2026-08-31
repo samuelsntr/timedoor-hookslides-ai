@@ -5,7 +5,7 @@ export function createAdminRoutes(controller) {
   const router = Router();
 
   // All routes below require admin authentication
-  router.use(adminAuth);
+  router.use('/admin', adminAuth);
 
   router.get('/admin/verify', controller.verify);
   router.get('/admin/stats', controller.getStats);
