@@ -20,6 +20,7 @@ function AuthModal({ open, mode: initialMode = "login", onClose }: AuthModalProp
   const [mode, setMode] = useState<AuthMode>(initialMode)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [confirmationPassword, setConfirmationPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [validationError, setValidationError] = useState<string | null>(null)
 
@@ -28,6 +29,7 @@ function AuthModal({ open, mode: initialMode = "login", onClose }: AuthModalProp
       setMode(initialMode)
       setUsername("")
       setPassword("")
+      setConfirmationPassword("")
       setShowPassword(false)
       setValidationError(null)
       clearError()
@@ -59,6 +61,10 @@ function AuthModal({ open, mode: initialMode = "login", onClose }: AuthModalProp
     }
     if (mode === "register" && password.length < 12) {
       setValidationError("Password must be at least 12 characters.")
+      return
+    }
+    if (mode === "register" && password !== confirmationPassword) {
+      setValidationError("Passwords do not match.")
       return
     }
     try {
@@ -95,6 +101,12 @@ function AuthModal({ open, mode: initialMode = "login", onClose }: AuthModalProp
               </button>
             </div>
           </div>
+          {mode === "register" && (
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="auth-confirmation-password">Confirmation Password</Label>
+              <Input id="auth-confirmation-password" type="password" value={confirmationPassword} onChange={(event) => setConfirmationPassword(event.target.value)} autoComplete="new-password" disabled={isLoading} />
+            </div>
+          )}
           {(validationError || error) && <p role="alert" className="text-sm text-destructive">{validationError || error}</p>}
           <Button type="submit" disabled={isLoading} className="mt-2 w-full cursor-pointer bg-primary text-primary-foreground hover:bg-primary/80">{isLoading ? "Please wait..." : mode === "login" ? "Sign In" : "Sign Up"}</Button>
         </form>
